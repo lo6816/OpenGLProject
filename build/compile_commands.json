@@ -1,0 +1,164 @@
+[
+{
+  "directory": "/Users/lorissperati/ULB/MA2/graph/Project/build",
+  "command": "/usr/bin/clang -DPATH_TO_LAB1_SHADERS=\\\"/Users/lorissperati/ULB/MA2/graph/Project\\\" -DPATH_TO_OBJECTS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/objects\\\" -DPATH_TO_TEXTURE=\\\"/Users/lorissperati/ULB/MA2/graph/Project/textures\\\" -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glad/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glm -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/stb -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -o CMakeFiles/glad.dir/3rdParty/glad/src/glad.c.o -c /Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glad/src/glad.c",
+  "file": "/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glad/src/glad.c",
+  "output": "CMakeFiles/glad.dir/3rdParty/glad/src/glad.c.o"
+},
+{
+  "directory": "/Users/lorissperati/ULB/MA2/graph/Project/build",
+  "command": "/usr/bin/clang++ -DPATH_TO_LAB1_SHADERS=\\\"/Users/lorissperati/ULB/MA2/graph/Project\\\" -DPATH_TO_OBJECTS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/objects\\\" -DPATH_TO_TEXTURE=\\\"/Users/lorissperati/ULB/MA2/graph/Project/textures\\\" -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glad/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glm -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/stb -iframework /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/System/Library/Frameworks -g -std=gnu++14 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -o CMakeFiles/infoh502-cpp_Project_ex01.dir/main.cpp.o -c /Users/lorissperati/ULB/MA2/graph/Project/main.cpp",
+  "file": "/Users/lorissperati/ULB/MA2/graph/Project/main.cpp",
+  "output": "CMakeFiles/infoh502-cpp_Project_ex01.dir/main.cpp.o"
+},
+{
+  "directory": "/Users/lorissperati/ULB/MA2/graph/Project/build",
+  "command": "/usr/bin/clang++ -DPATH_TO_LAB1_SHADERS=\\\"/Users/lorissperati/ULB/MA2/graph/Project\\\" -DPATH_TO_OBJECTS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/objects\\\" -DPATH_TO_TEXTURE=\\\"/Users/lorissperati/ULB/MA2/graph/Project/textures\\\" -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glad/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glm -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/stb -iframework /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/System/Library/Frameworks -g -std=gnu++14 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -o CMakeFiles/infoh502-cpp_Project_ex02.dir/multip_moai_text.cpp.o -c /Users/lorissperati/ULB/MA2/graph/Project/multip_moai_text.cpp",
+  "file": "/Users/lorissperati/ULB/MA2/graph/Project/multip_moai_text.cpp",
+  "output": "CMakeFiles/infoh502-cpp_Project_ex02.dir/multip_moai_text.cpp.o"
+},
+{
+  "directory": "/Users/lorissperati/ULB/MA2/graph/Project/build",
+  "command": "/usr/bin/clang++ -DPATH_TO_LAB1_SHADERS=\\\"/Users/lorissperati/ULB/MA2/graph/Project\\\" -DPATH_TO_OBJECTS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/objects\\\" -DPATH_TO_TEXTURE=\\\"/Users/lorissperati/ULB/MA2/graph/Project/textures\\\" -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glad/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glm -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/stb -iframework /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/System/Library/Frameworks -g -std=gnu++14 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -o CMakeFiles/infoh502-cpp_Project_light.dir/light.cpp.o -c /Users/lorissperati/ULB/MA2/graph/Project/light.cpp",
+  "file": "/Users/lorissperati/ULB/MA2/graph/Project/light.cpp",
+  "output": "CMakeFiles/infoh502-cpp_Project_light.dir/light.cpp.o"
+},
+{
+  "directory": "/Users/lorissperati/ULB/MA2/graph/Project/build",
+  "command": "/usr/bin/clang++ -DPATH_TO_LAB1_SHADERS=\\\"/Users/lorissperati/ULB/MA2/graph/Project\\\" -DPATH_TO_OBJECTS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/objects\\\" -DPATH_TO_TEXTURE=\\\"/Users/lorissperati/ULB/MA2/graph/Project/textures\\\" -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glad/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glm -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/stb -iframework /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/System/Library/Frameworks -g -std=gnu++14 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -o CMakeFiles/infoh502-cpp_Project_sun_sim.dir/sun_sim.cpp.o -c /Users/lorissperati/ULB/MA2/graph/Project/sun_sim.cpp",
+  "file": "/Users/lorissperati/ULB/MA2/graph/Project/sun_sim.cpp",
+  "output": "CMakeFiles/infoh502-cpp_Project_sun_sim.dir/sun_sim.cpp.o"
+},
+{
+  "directory": "/Users/lorissperati/ULB/MA2/graph/Project/build",
+  "command": "/usr/bin/clang++ -DPATH_TO_LAB1_SHADERS=\\\"/Users/lorissperati/ULB/MA2/graph/Project\\\" -DPATH_TO_OBJECTS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/objects\\\" -DPATH_TO_TEXTURE=\\\"/Users/lorissperati/ULB/MA2/graph/Project/textures\\\" -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glad/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glm -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/stb -iframework /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/System/Library/Frameworks -g -std=gnu++14 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -o CMakeFiles/infoh502-cpp_Project_cubmap.dir/cubeMap.cpp.o -c /Users/lorissperati/ULB/MA2/graph/Project/cubeMap.cpp",
+  "file": "/Users/lorissperati/ULB/MA2/graph/Project/cubeMap.cpp",
+  "output": "CMakeFiles/infoh502-cpp_Project_cubmap.dir/cubeMap.cpp.o"
+},
+{
+  "directory": "/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/clang -DPATH_TO_OBJECTS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/objects\\\" -DPATH_TO_TEXTURE=\\\"/Users/lorissperati/ULB/MA2/graph/Project/textures\\\" -D_GLFW_COCOA -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src -I/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src -g -std=c99 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fPIC -Wall -o CMakeFiles/glfw.dir/context.c.o -c /Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/context.c",
+  "file": "/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/context.c",
+  "output": "3rdParty/glfw/src/CMakeFiles/glfw.dir/context.c.o"
+},
+{
+  "directory": "/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/clang -DPATH_TO_OBJECTS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/objects\\\" -DPATH_TO_TEXTURE=\\\"/Users/lorissperati/ULB/MA2/graph/Project/textures\\\" -D_GLFW_COCOA -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src -I/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src -g -std=c99 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fPIC -Wall -o CMakeFiles/glfw.dir/init.c.o -c /Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/init.c",
+  "file": "/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/init.c",
+  "output": "3rdParty/glfw/src/CMakeFiles/glfw.dir/init.c.o"
+},
+{
+  "directory": "/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/clang -DPATH_TO_OBJECTS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/objects\\\" -DPATH_TO_TEXTURE=\\\"/Users/lorissperati/ULB/MA2/graph/Project/textures\\\" -D_GLFW_COCOA -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src -I/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src -g -std=c99 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fPIC -Wall -o CMakeFiles/glfw.dir/input.c.o -c /Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/input.c",
+  "file": "/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/input.c",
+  "output": "3rdParty/glfw/src/CMakeFiles/glfw.dir/input.c.o"
+},
+{
+  "directory": "/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/clang -DPATH_TO_OBJECTS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/objects\\\" -DPATH_TO_TEXTURE=\\\"/Users/lorissperati/ULB/MA2/graph/Project/textures\\\" -D_GLFW_COCOA -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src -I/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src -g -std=c99 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fPIC -Wall -o CMakeFiles/glfw.dir/monitor.c.o -c /Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/monitor.c",
+  "file": "/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/monitor.c",
+  "output": "3rdParty/glfw/src/CMakeFiles/glfw.dir/monitor.c.o"
+},
+{
+  "directory": "/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/clang -DPATH_TO_OBJECTS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/objects\\\" -DPATH_TO_TEXTURE=\\\"/Users/lorissperati/ULB/MA2/graph/Project/textures\\\" -D_GLFW_COCOA -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src -I/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src -g -std=c99 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fPIC -Wall -o CMakeFiles/glfw.dir/platform.c.o -c /Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/platform.c",
+  "file": "/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/platform.c",
+  "output": "3rdParty/glfw/src/CMakeFiles/glfw.dir/platform.c.o"
+},
+{
+  "directory": "/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/clang -DPATH_TO_OBJECTS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/objects\\\" -DPATH_TO_TEXTURE=\\\"/Users/lorissperati/ULB/MA2/graph/Project/textures\\\" -D_GLFW_COCOA -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src -I/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src -g -std=c99 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fPIC -Wall -o CMakeFiles/glfw.dir/vulkan.c.o -c /Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/vulkan.c",
+  "file": "/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/vulkan.c",
+  "output": "3rdParty/glfw/src/CMakeFiles/glfw.dir/vulkan.c.o"
+},
+{
+  "directory": "/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/clang -DPATH_TO_OBJECTS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/objects\\\" -DPATH_TO_TEXTURE=\\\"/Users/lorissperati/ULB/MA2/graph/Project/textures\\\" -D_GLFW_COCOA -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src -I/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src -g -std=c99 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fPIC -Wall -o CMakeFiles/glfw.dir/window.c.o -c /Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/window.c",
+  "file": "/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/window.c",
+  "output": "3rdParty/glfw/src/CMakeFiles/glfw.dir/window.c.o"
+},
+{
+  "directory": "/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/clang -DPATH_TO_OBJECTS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/objects\\\" -DPATH_TO_TEXTURE=\\\"/Users/lorissperati/ULB/MA2/graph/Project/textures\\\" -D_GLFW_COCOA -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src -I/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src -g -std=c99 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fPIC -Wall -o CMakeFiles/glfw.dir/egl_context.c.o -c /Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/egl_context.c",
+  "file": "/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/egl_context.c",
+  "output": "3rdParty/glfw/src/CMakeFiles/glfw.dir/egl_context.c.o"
+},
+{
+  "directory": "/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/clang -DPATH_TO_OBJECTS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/objects\\\" -DPATH_TO_TEXTURE=\\\"/Users/lorissperati/ULB/MA2/graph/Project/textures\\\" -D_GLFW_COCOA -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src -I/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src -g -std=c99 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fPIC -Wall -o CMakeFiles/glfw.dir/osmesa_context.c.o -c /Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/osmesa_context.c",
+  "file": "/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/osmesa_context.c",
+  "output": "3rdParty/glfw/src/CMakeFiles/glfw.dir/osmesa_context.c.o"
+},
+{
+  "directory": "/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/clang -DPATH_TO_OBJECTS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/objects\\\" -DPATH_TO_TEXTURE=\\\"/Users/lorissperati/ULB/MA2/graph/Project/textures\\\" -D_GLFW_COCOA -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src -I/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src -g -std=c99 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fPIC -Wall -o CMakeFiles/glfw.dir/null_init.c.o -c /Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/null_init.c",
+  "file": "/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/null_init.c",
+  "output": "3rdParty/glfw/src/CMakeFiles/glfw.dir/null_init.c.o"
+},
+{
+  "directory": "/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/clang -DPATH_TO_OBJECTS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/objects\\\" -DPATH_TO_TEXTURE=\\\"/Users/lorissperati/ULB/MA2/graph/Project/textures\\\" -D_GLFW_COCOA -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src -I/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src -g -std=c99 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fPIC -Wall -o CMakeFiles/glfw.dir/null_monitor.c.o -c /Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/null_monitor.c",
+  "file": "/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/null_monitor.c",
+  "output": "3rdParty/glfw/src/CMakeFiles/glfw.dir/null_monitor.c.o"
+},
+{
+  "directory": "/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/clang -DPATH_TO_OBJECTS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/objects\\\" -DPATH_TO_TEXTURE=\\\"/Users/lorissperati/ULB/MA2/graph/Project/textures\\\" -D_GLFW_COCOA -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src -I/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src -g -std=c99 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fPIC -Wall -o CMakeFiles/glfw.dir/null_window.c.o -c /Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/null_window.c",
+  "file": "/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/null_window.c",
+  "output": "3rdParty/glfw/src/CMakeFiles/glfw.dir/null_window.c.o"
+},
+{
+  "directory": "/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/clang -DPATH_TO_OBJECTS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/objects\\\" -DPATH_TO_TEXTURE=\\\"/Users/lorissperati/ULB/MA2/graph/Project/textures\\\" -D_GLFW_COCOA -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src -I/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src -g -std=c99 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fPIC -Wall -o CMakeFiles/glfw.dir/null_joystick.c.o -c /Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/null_joystick.c",
+  "file": "/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/null_joystick.c",
+  "output": "3rdParty/glfw/src/CMakeFiles/glfw.dir/null_joystick.c.o"
+},
+{
+  "directory": "/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/clang -DPATH_TO_OBJECTS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/objects\\\" -DPATH_TO_TEXTURE=\\\"/Users/lorissperati/ULB/MA2/graph/Project/textures\\\" -D_GLFW_COCOA -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src -I/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src -g -std=c99 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fPIC -Wall -o CMakeFiles/glfw.dir/cocoa_time.c.o -c /Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/cocoa_time.c",
+  "file": "/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/cocoa_time.c",
+  "output": "3rdParty/glfw/src/CMakeFiles/glfw.dir/cocoa_time.c.o"
+},
+{
+  "directory": "/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/clang -DPATH_TO_OBJECTS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/objects\\\" -DPATH_TO_TEXTURE=\\\"/Users/lorissperati/ULB/MA2/graph/Project/textures\\\" -D_GLFW_COCOA -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src -I/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src -g -std=c99 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fPIC -Wall -o CMakeFiles/glfw.dir/posix_module.c.o -c /Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/posix_module.c",
+  "file": "/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/posix_module.c",
+  "output": "3rdParty/glfw/src/CMakeFiles/glfw.dir/posix_module.c.o"
+},
+{
+  "directory": "/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/clang -DPATH_TO_OBJECTS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/objects\\\" -DPATH_TO_TEXTURE=\\\"/Users/lorissperati/ULB/MA2/graph/Project/textures\\\" -D_GLFW_COCOA -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src -I/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src -g -std=c99 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fPIC -Wall -o CMakeFiles/glfw.dir/posix_thread.c.o -c /Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/posix_thread.c",
+  "file": "/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/posix_thread.c",
+  "output": "3rdParty/glfw/src/CMakeFiles/glfw.dir/posix_thread.c.o"
+},
+{
+  "directory": "/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/clang -DPATH_TO_OBJECTS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/objects\\\" -DPATH_TO_TEXTURE=\\\"/Users/lorissperati/ULB/MA2/graph/Project/textures\\\" -D_GLFW_COCOA -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src -I/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src -g -std=c99 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fPIC -Wall -o CMakeFiles/glfw.dir/cocoa_init.m.o -c /Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/cocoa_init.m",
+  "file": "/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/cocoa_init.m",
+  "output": "3rdParty/glfw/src/CMakeFiles/glfw.dir/cocoa_init.m.o"
+},
+{
+  "directory": "/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/clang -DPATH_TO_OBJECTS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/objects\\\" -DPATH_TO_TEXTURE=\\\"/Users/lorissperati/ULB/MA2/graph/Project/textures\\\" -D_GLFW_COCOA -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src -I/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src -g -std=c99 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fPIC -Wall -o CMakeFiles/glfw.dir/cocoa_joystick.m.o -c /Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/cocoa_joystick.m",
+  "file": "/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/cocoa_joystick.m",
+  "output": "3rdParty/glfw/src/CMakeFiles/glfw.dir/cocoa_joystick.m.o"
+},
+{
+  "directory": "/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/clang -DPATH_TO_OBJECTS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/objects\\\" -DPATH_TO_TEXTURE=\\\"/Users/lorissperati/ULB/MA2/graph/Project/textures\\\" -D_GLFW_COCOA -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src -I/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src -g -std=c99 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fPIC -Wall -o CMakeFiles/glfw.dir/cocoa_monitor.m.o -c /Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/cocoa_monitor.m",
+  "file": "/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/cocoa_monitor.m",
+  "output": "3rdParty/glfw/src/CMakeFiles/glfw.dir/cocoa_monitor.m.o"
+},
+{
+  "directory": "/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/clang -DPATH_TO_OBJECTS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/objects\\\" -DPATH_TO_TEXTURE=\\\"/Users/lorissperati/ULB/MA2/graph/Project/textures\\\" -D_GLFW_COCOA -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src -I/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src -g -std=c99 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fPIC -Wall -o CMakeFiles/glfw.dir/cocoa_window.m.o -c /Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/cocoa_window.m",
+  "file": "/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/cocoa_window.m",
+  "output": "3rdParty/glfw/src/CMakeFiles/glfw.dir/cocoa_window.m.o"
+},
+{
+  "directory": "/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/clang -DPATH_TO_OBJECTS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/objects\\\" -DPATH_TO_TEXTURE=\\\"/Users/lorissperati/ULB/MA2/graph/Project/textures\\\" -D_GLFW_COCOA -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src -I/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src -g -std=c99 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fPIC -Wall -o CMakeFiles/glfw.dir/nsgl_context.m.o -c /Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/nsgl_context.m",
+  "file": "/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/nsgl_context.m",
+  "output": "3rdParty/glfw/src/CMakeFiles/glfw.dir/nsgl_context.m.o"
+}
+]
