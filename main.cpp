@@ -143,14 +143,25 @@ int main(int argc, char* argv[])
 
 		"out vec4 v_col; \n"
 		"out vec2 v_t; \n"
+
+		"out vec3 v_frag_coord; \n"
+		"out vec3 v_normal; \n"
+
+		"uniform mat4 itM; \n"
 		
 		"uniform mat4 M; \n"
 		"uniform mat4 V; \n"
 		"uniform mat4 P; \n"
 		" void main(){ \n"
-		"gl_Position = P*M*V*vec4(position, 1);\n"
+
+		"vec4 frag_coord = M*vec4(position, 1.0); \n"
+		"gl_Position = P*M*V*frag_coord;\n"
+
 		"v_col = vec4(normal*0.5 + 0.5, 1.0);\n"
 		"v_t = tex_coord; \n"
+
+		"v_normal = vec3(itM * vec4(normal, 1.0)); \n"
+		"v_frag_coord = frag_coord.xyz; \n"
 		"}\n"; 
 	const std::string sourceF = "#version 330 core\n"
 		"out vec4 FragColor;"
@@ -158,10 +169,71 @@ int main(int argc, char* argv[])
 		"in vec4 v_col; \n"
 		"in vec2 v_t; \n"
 
+		"in vec3 v_frag_coord; \n"
+		"in vec3 v_normal; \n"
+
 		"uniform sampler2D ourTexture; \n"
+
+		"uniform vec3 u_view_pos; \n"
+		"uniform vec3 u_light_direction; \n"
+
+		"struct Light{\n" 
+		"vec3 light_pos; \n"
+		"float ambient_strength; \n"
+		"float diffuse_strength; \n"
+		"float specular_strength; \n"
+		//attenuation factor
+		"float constant;\n"
+		"float linear;\n"
+		"float quadratic;\n"
+		"};\n"
+		"uniform Light light;"
+
+		"uniform float shininess; \n"
+		"uniform float now;\n"
+		"uniform float sunIntensity;\n"
+
+
+		"float specularCalculation(vec3 N, vec3 L, vec3 V ){ \n"
+			"vec3 R = reflect (-L,N);  \n " //reflect (-L,N) is  equivalent to //max (2 * dot(N,L) * N - L , 0.0) ;
+			"float cosTheta = dot(R , V); \n"
+			"float spec = pow(max(cosTheta,0.0), 32.0); \n"
+			"return light.specular_strength * spec;\n"
+		"}\n"
+
+		"float CalcPointLight(Light light, vec3 N, vec3 V, vec3 L)\n"
+			"{\n"
+			"float specular = specularCalculation( N, L, V); \n"
+			"float diffuse = light.diffuse_strength * max(dot(N,L),0.0);\n"
+			"float distance = length(light.light_pos - v_frag_coord);"
+			"float attenuation = 1 / (light.constant + light.linear * distance + light.quadratic * distance * distance);"
+			"float res = light.ambient_strength + attenuation * (diffuse + specular); \n"
+			"return res; \n"
+		"}\n"
+
+		"float CalcDirectionalLight(Light light, vec3 N, vec3 V, vec3 L)\n"
+			"{\n"
+			// "float specular = specularCalculation( N, L, V); \n"
+			"float diffuse = light.diffuse_strength * max(dot(N,L),0.0);\n"
+			"float attenuation = 1; \n"
+			"float orbitAngle = atan(light.light_pos.x, light.light_pos.y);\n"
+			"float dynamicIntensity = sunIntensity * clamp(0.5 + 0.5 * cos(orbitAngle), 0.0, 1.0);\n"
+			"float res = light.ambient_strength + dynamicIntensity * attenuation * (diffuse); \n"
+			"return res; \n"
+		"}\n"
+
 		"void main() { \n"
+		"vec3 N = normalize(v_normal);\n"
+		"vec3 V = normalize(u_view_pos - v_frag_coord); \n"
+		"float result = CalcDirectionalLight(light, N, V, normalize(-u_light_direction)); \n"
+		"result += CalcPointLight(light, N, V, normalize(light.light_pos - v_frag_coord)); \n"
+
+		// Récupération de la couleur de texture
+		"vec3 texColor = texture(ourTexture, v_t).rgb; \n"
+
 		// "FragColor = v_col*(1.0-v_t.y); \n" //for the sake of the exercise, we will color the result using texture and color coordinated present in the file, feel free to change the shaders as you prefer
-		"FragColor = texture(ourTexture, v_t); \n"
+		// "FragColor = texture(ourTexture, v_t); \n"
+		"FragColor = vec4(texColor * result, 1.0); \n"
 		"} \n";
 
 	
@@ -200,6 +272,8 @@ int main(int argc, char* argv[])
 	glm::mat4 model = glm::mat4(1.0);
 	model = glm::translate(model, glm::vec3(0.0, 0.0, 0.0));
 	// model = glm::scale(model, glm::vec3(0.5, 0.5, 0.5));
+	glm::mat4 inverseModel = glm::transpose( glm::inverse(model));
+
 
 	char path2[] = PATH_TO_OBJECTS "/plage.obj";
 	Object secondObj(path2);
@@ -207,15 +281,32 @@ int main(int argc, char* argv[])
 	char file2[128] = "./../textures/plage.png";
 	secondObj.createText(file2);	
 	glm::mat4 secondModel = glm::translate(glm::mat4(1.0f),glm::vec3(0.0, 0.0, 0.0));
-
+	glm::mat4 inverseModel2 = glm::transpose( glm::inverse(secondModel));
 
 
 	glm::mat4 view = camera.GetViewMatrix();
 	glm::mat4 perspective = camera.GetProjectionMatrix();
 
+	glm::vec3 light_pos = glm::vec3(1.0, 2.0, 1.5);
+	glm::vec3 light_direction = glm::vec3(-0.2f, -1.0f, -0.3f);
+
 
 	glfwSwapInterval(1);
 	//Rendering
+
+	float ambient = 0.1;
+	float diffuse = 1.0;
+	float specular = 0.8;
+
+	shader.use();
+	shader.setFloat("shininess", 32.0f);
+	shader.setFloat("light.ambient_strength", ambient);
+	shader.setFloat("light.diffuse_strength", diffuse);
+	shader.setFloat("light.specular_strength", specular);
+	shader.setFloat("light.constant", 1.0);
+	shader.setFloat("light.linear", 0.14);
+	shader.setFloat("light.quadratic", 0.07);
+	shader.setFloat("sunIntensity", 1.0f);
 
 	while (!glfwWindowShouldClose(window)) {
 		processInput(window);
@@ -230,8 +321,19 @@ int main(int argc, char* argv[])
 		shader.use();
 
 		shader.setMatrix4("M", model);
+		shader.setMatrix4("itM", inverseModel);
 		shader.setMatrix4("V", view);
 		shader.setMatrix4("P", perspective);
+
+		shader.setVector3f("u_view_pos", camera.Position);
+		shader.setVector3f("u_light_direction", light_direction);
+
+		float damptime = 0.2;
+		auto delta = glm::vec3(10.0f * std::cos(damptime * now), 10.0f * std::sin(damptime *  now), 0.0f);
+		//std::cout << delta.z <<std::endl;
+		shader.setVector3f("light.light_pos", delta);
+		shader.setFloat("now", 0.1 * (now));
+
 
 		shader.setInteger("ourTexture", 0);		
 		cube.drawText();
@@ -240,6 +342,7 @@ int main(int argc, char* argv[])
 
 		// glm::mat4 secondModel = glm::translate(glm::mat4(1.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		shader.setMatrix4("M", secondModel);
+		shader.setMatrix4("itM", inverseModel2);
 		secondObj.drawText();
 		secondObj.draw();
 		
