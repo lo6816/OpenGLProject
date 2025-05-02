@@ -11,6 +11,9 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
+#include <map>
+#include <algorithm>
+
 
 
 #include "./utils/camera.h"
@@ -26,6 +29,7 @@ GLuint compileShader(std::string shaderCode, GLenum shaderType);
 GLuint compileProgram(GLuint vertexShader, GLuint fragmentShader);
 void processInput(GLFWwindow* window);
 
+void loadCubemapFace(const char * file, const GLenum& targetCube);
 
 #ifndef NDEBUG
 void APIENTRY glDebugOutput(GLenum source,
@@ -136,122 +140,99 @@ int main(int argc, char* argv[])
 	}
 #endif
 
-	const std::string sourceV = "#version 330 core\n"
+	char shaderSimLightV[128] = PATH_TO_SHADERS "/vertSrc.txt";
+	char shaderSimLightF[128] = PATH_TO_SHADERS "/fragSrc.txt";
+
+	char shaderSunV[128] = PATH_TO_SHADERS "/sunVert.txt";
+	char shaderSunF[128] = PATH_TO_SHADERS "/sunFrag.txt";
+
+	char shaderSphV[128] = PATH_TO_SHADERS "/sphVert.txt";
+	char shaderSphF[128] = PATH_TO_SHADERS "/sphFrag.txt";
+
+	// char sourceVCubeMap[128] = PATH_TO_SHADERS "/mapVert.txt";
+	// char sourceFCubeMap[128] = PATH_TO_SHADERS "/mapFrag.txt";
+
+	
+	Shader shader(shaderSimLightV, shaderSimLightF);
+	Shader shaderGnom(shaderSimLightV, shaderSimLightF);
+	Shader shader2(shaderSunV, shaderSunF);
+	Shader shader3(shaderSphV, shaderSphF);
+	// Shader cubeMapShader = Shader(sourceVCubeMap, sourceFCubeMap);
+
+	const std::string sourceVCubeMap = "#version 330 core\n"
 		"in vec3 position; \n"
-		"in vec2 tex_coord; \n"
+		"in vec2 tex_coords; \n"
 		"in vec3 normal; \n"
-
-		"out vec4 v_col; \n"
-		"out vec2 v_t; \n"
-
-		"out vec3 v_frag_coord; \n"
-		"out vec3 v_normal; \n"
-
-		"uniform mat4 itM; \n"
 		
-		"uniform mat4 M; \n"
+		//only P and V are necessary
 		"uniform mat4 V; \n"
 		"uniform mat4 P; \n"
+
+		"out vec3 texCoord_v; \n"
+
 		" void main(){ \n"
+		"texCoord_v = position;\n"
+		//remove translation info from view matrix to only keep rotation
+		"mat4 V_no_rot = mat4(mat3(V)) ;\n"
+		"vec4 pos = P * V_no_rot * vec4(position, 1.0); \n"
+		// the positions xyz are divided by w after the vertex shader
+		// the z component is equal to the depth value
+		// we want a z always equal to 1.0 here, so we set z = w!
+		// Remember: z=1.0 is the MAXIMUM depth value ;)
+		"gl_Position = pos.xyww;\n"
+		"\n" 
+		"}\n";
 
-		"vec4 frag_coord = M*vec4(position, 1.0); \n"
-		"gl_Position = P*M*V*frag_coord;\n"
-
-		"v_col = vec4(normal*0.5 + 0.5, 1.0);\n"
-		"v_t = tex_coord; \n"
-
-		"v_normal = vec3(itM * vec4(normal, 1.0)); \n"
-		"v_frag_coord = frag_coord.xyz; \n"
-		"}\n"; 
-	const std::string sourceF = "#version 330 core\n"
-		"out vec4 FragColor;"
+	const std::string sourceFCubeMap = 
+		"#version 330 core\n"
+		"out vec4 FragColor;\n"
 		"precision mediump float; \n"
-		"in vec4 v_col; \n"
-		"in vec2 v_t; \n"
-
-		"in vec3 v_frag_coord; \n"
-		"in vec3 v_normal; \n"
-
-		"uniform sampler2D ourTexture; \n"
-
-		"uniform vec3 u_view_pos; \n"
-		"uniform vec3 u_light_direction; \n"
-
-		"struct Light{\n" 
-		"vec3 light_pos; \n"
-		"float ambient_strength; \n"
-		"float diffuse_strength; \n"
-		"float specular_strength; \n"
-		//attenuation factor
-		"float constant;\n"
-		"float linear;\n"
-		"float quadratic;\n"
-		"};\n"
-		"uniform Light light;"
-
-		"uniform float shininess; \n"
-		"uniform float now;\n"
-		"uniform float sunIntensity;\n"
-
-
-		"float specularCalculation(vec3 N, vec3 L, vec3 V ){ \n"
-			"vec3 R = reflect (-L,N);  \n " //reflect (-L,N) is  equivalent to //max (2 * dot(N,L) * N - L , 0.0) ;
-			"float cosTheta = dot(R , V); \n"
-			"float spec = pow(max(cosTheta,0.0), 32.0); \n"
-			"return light.specular_strength * spec;\n"
-		"}\n"
-
-		"float CalcPointLight(Light light, vec3 N, vec3 V, vec3 L)\n"
-			"{\n"
-			"float specular = specularCalculation( N, L, V); \n"
-			"float diffuse = light.diffuse_strength * max(dot(N,L),0.0);\n"
-			"float distance = length(light.light_pos - v_frag_coord);"
-			"float attenuation = 1 / (light.constant + light.linear * distance + light.quadratic * distance * distance);"
-			"float res = light.ambient_strength + attenuation * (diffuse + specular); \n"
-			"return res; \n"
-		"}\n"
-
-		"float CalcDirectionalLight(Light light, vec3 N, vec3 V, vec3 L)\n"
-			"{\n"
-			// "float specular = specularCalculation( N, L, V); \n"
-			"float diffuse = light.diffuse_strength * max(dot(N,L),0.0);\n"
-			"float attenuation = 1; \n"
-			"float orbitAngle = atan(light.light_pos.x, light.light_pos.y);\n"
-			"float dynamicIntensity = sunIntensity * clamp(0.5 + 0.5 * cos(orbitAngle), 0.0, 1.0);\n"
-			"float res = light.ambient_strength + dynamicIntensity * attenuation * (diffuse); \n"
-			"return res; \n"
-		"}\n"
-
+		"uniform samplerCube cubemapSampler; \n"
+		"uniform float intensity; \n"
+		"in vec3 texCoord_v; \n"
 		"void main() { \n"
-		"vec3 N = normalize(v_normal);\n"
-		"vec3 V = normalize(u_view_pos - v_frag_coord); \n"
-		"float result = CalcDirectionalLight(light, N, V, normalize(-u_light_direction)); \n"
-		"result += CalcPointLight(light, N, V, normalize(light.light_pos - v_frag_coord)); \n"
-
-		// Récupération de la couleur de texture
-		"vec3 texColor = texture(ourTexture, v_t).rgb; \n"
-
-		// "FragColor = v_col*(1.0-v_t.y); \n" //for the sake of the exercise, we will color the result using texture and color coordinated present in the file, feel free to change the shaders as you prefer
-		// "FragColor = texture(ourTexture, v_t); \n"
-		"FragColor = vec4(texColor * result, 1.0); \n"
+		"FragColor = texture(cubemapSampler,texCoord_v) * intensity; \n"
 		"} \n";
 
-	
-	Shader shader(sourceV, sourceF);
 
-	//Here for this exercise session, we use a macro to indicate the folder containing the .obj files
-	//Check the file CMakeLists.txt in the LAB03 folder to see where it is specified
-	//Start the exercise with the cube object then try to test your implementation with more complex one
+	Shader cubeMapShader = Shader(sourceVCubeMap, sourceFCubeMap);
+
+
 	char path[] = PATH_TO_OBJECTS "/moai5.obj";
-	
-	//Model is the class present in the object.h file
-	//Change the constructor to read the file
-	Object cube(path);
-	//Modify the makeObject function to create and setup your VBO and VAO
-	cube.makeObject(shader);
-
+	Object moai(path);
+	moai.makeObject(shader);
+	moai.centerModel();
 	char file[128] = "./../textures/uii.png";
-	cube.createText(file);
+	moai.createText(file);
+
+	char pathGnom[] = PATH_TO_OBJECTS "/gnom.obj";
+	Object gnom(pathGnom);
+	gnom.makeObject(shader);
+	gnom.centerModel();
+	char fileGnom[128] = "./../textures/2k_sun.png";
+	gnom.createText(fileGnom);
+
+	char path2[] = PATH_TO_OBJECTS "/plage.obj";
+	Object beach(path2);
+	beach.makeObject(shader);
+	char file2[128] = "./../textures/plage.png";
+	beach.createText(file2);	
+
+	char pathCub[] = PATH_TO_OBJECTS "/sphere_smooth.obj"; 
+	Object sun(pathCub);
+	sun.makeObject(shader2, true);
+	char file3[128] = "./../textures/2k_sun.jpg";
+	sun.createText(file3);
+
+	Object sphere1(pathCub);
+	sphere1.makeObject(shader3, false);
+
+	//SKYBOX
+	char pathCube[] = PATH_TO_OBJECTS "/cube.obj";
+	Object cubeMap(pathCube);
+	cubeMap.makeObject(cubeMapShader);
+
+	glm::vec3 materialColour = glm::vec3(0.5f,0.6,0.8);
 
 
 	double prev = 0;
@@ -269,20 +250,27 @@ int main(int argc, char* argv[])
 	};
 
 
-	glm::mat4 model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(0.0, 0.0, 0.0));
-	// model = glm::scale(model, glm::vec3(0.5, 0.5, 0.5));
-	glm::mat4 inverseModel = glm::transpose( glm::inverse(model));
+	glm::mat4 modelmoai = glm::mat4(1.0);
+	modelmoai = glm::translate(modelmoai, glm::vec3(0.0, 0.0, 0.0));
+	// modelmoai = glm::scale(modelmoai, glm::vec3(0.5, 0.5, 0.5));
+	glm::mat4 inverseModel = glm::transpose( glm::inverse(modelmoai));
 
+	glm::mat4 modelgnom = glm::mat4(1.0);
+	modelgnom = glm::translate(modelgnom, glm::vec3(0.0, 0.0, 0.0));
+	// modelgnom = glm::scale(modelgnom, glm::vec3(0.5, 0.5, 0.5));
+	glm::mat4 inverseModelGnom = glm::transpose( glm::inverse(modelgnom));
 
-	char path2[] = PATH_TO_OBJECTS "/plage.obj";
-	Object secondObj(path2);
-	secondObj.makeObject(shader);
-	char file2[128] = "./../textures/plage.png";
-	secondObj.createText(file2);	
+	glm::mat4 sphere = glm::mat4(1.0);
+	sphere = glm::translate(sphere, glm::vec3(-2.0, 0.0, 0.0));
+	sphere = glm::scale(sphere, glm::vec3(0.5, 0.5, 0.5));
+	glm::mat4 inverseModelSphere = glm::transpose( glm::inverse(sphere));
+
 	glm::mat4 secondModel = glm::translate(glm::mat4(1.0f),glm::vec3(0.0, 0.0, 0.0));
 	glm::mat4 inverseModel2 = glm::transpose( glm::inverse(secondModel));
 
+	glm::mat4 modelSun = glm::translate(modelSun, glm::vec3(0.0, 0.0, 0.0));
+	modelSun = glm::scale(modelSun, glm::vec3(0.5, 0.5, 0.5));
+	glm::mat4 inverseModelSun= glm::transpose(glm::inverse(modelSun));
 
 	glm::mat4 view = camera.GetViewMatrix();
 	glm::mat4 perspective = camera.GetProjectionMatrix();
@@ -299,7 +287,7 @@ int main(int argc, char* argv[])
 	float specular = 0.8;
 
 	shader.use();
-	shader.setFloat("shininess", 32.0f);
+	shader.setFloat("shininess", 256.0f);
 	shader.setFloat("light.ambient_strength", ambient);
 	shader.setFloat("light.diffuse_strength", diffuse);
 	shader.setFloat("light.specular_strength", specular);
@@ -307,6 +295,48 @@ int main(int argc, char* argv[])
 	shader.setFloat("light.linear", 0.14);
 	shader.setFloat("light.quadratic", 0.07);
 	shader.setFloat("sunIntensity", 1.0f);
+
+	shader3.use();
+	shader3.setFloat("shininess", 256.0f);
+	shader3.setVector3f("materialColour", materialColour);
+	shader3.setFloat("light.ambient_strength", ambient);
+	shader3.setFloat("light.diffuse_strength", diffuse);
+	shader3.setFloat("light.specular_strength", specular);
+	shader3.setFloat("light.constant", 1.0);
+	shader3.setFloat("light.linear", 0.14);
+	shader3.setFloat("light.quadratic", 0.07);
+	shader3.setFloat("sunIntensity", 1.0f);
+
+	
+
+	GLuint cubeMapTexture;
+	glGenTextures(1, &cubeMapTexture);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMapTexture);
+
+	// texture parameters
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	stbi_set_flip_vertically_on_load(false);
+
+	std::string pathToCubeMap = PATH_TO_TEXTURE "/cubemaps/Daylight/";
+
+	std::map<std::string, GLenum> facesToLoad = { 
+		{pathToCubeMap + "posx.jpg",GL_TEXTURE_CUBE_MAP_POSITIVE_X},
+		{pathToCubeMap + "posy.jpg",GL_TEXTURE_CUBE_MAP_POSITIVE_Y},
+		{pathToCubeMap + "posz.jpg",GL_TEXTURE_CUBE_MAP_POSITIVE_Z},
+		{pathToCubeMap + "negx.jpg",GL_TEXTURE_CUBE_MAP_NEGATIVE_X},
+		{pathToCubeMap + "negy.jpg",GL_TEXTURE_CUBE_MAP_NEGATIVE_Y},
+		{pathToCubeMap + "negz.jpg",GL_TEXTURE_CUBE_MAP_NEGATIVE_Z},
+	};
+	//load the six faces
+	for (std::pair<std::string, GLenum> pair : facesToLoad) {
+		loadCubemapFace(pair.first.c_str(), pair.second);
+	}
 
 	while (!glfwWindowShouldClose(window)) {
 		processInput(window);
@@ -316,35 +346,82 @@ int main(int argc, char* argv[])
 		glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		float damptime = -0.04;
+		float distSun = -50.0f;
+		auto delta = glm::vec3(distSun * std::cos(damptime * now), distSun * std::sin(damptime *  now), -80.0f);
+		float intensityMap = fmin(fmax(std::sin(-damptime * now), 0.0f) + 0.1f, 1.0f);
+
 
 		//Use the shader Class to send the uniform
 		shader.use();
 
-		shader.setMatrix4("M", model);
+		shader.setMatrix4("M", modelmoai);
 		shader.setMatrix4("itM", inverseModel);
 		shader.setMatrix4("V", view);
 		shader.setMatrix4("P", perspective);
-
 		shader.setVector3f("u_view_pos", camera.Position);
-		shader.setVector3f("u_light_direction", light_direction);
 
-		float damptime = 0.2;
-		auto delta = glm::vec3(10.0f * std::cos(damptime * now), 10.0f * std::sin(damptime *  now), 0.0f);
 		//std::cout << delta.z <<std::endl;
 		shader.setVector3f("light.light_pos", delta);
+		shader.setVector3f("u_light_direction", light_direction);
 		shader.setFloat("now", 0.1 * (now));
 
 
 		shader.setInteger("ourTexture", 0);		
-		cube.drawText();
-		//you will have to change the implementation of this function
-		cube.draw();
+		moai.drawText();
 
-		// glm::mat4 secondModel = glm::translate(glm::mat4(1.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		glDepthFunc(GL_LEQUAL);
+
+		moai.draw();
+
+		shader.setMatrix4("M", modelgnom);
+		shader.setMatrix4("itM", inverseModelGnom);
+		gnom.drawText();
+		gnom.draw();
+
 		shader.setMatrix4("M", secondModel);
 		shader.setMatrix4("itM", inverseModel2);
-		secondObj.drawText();
-		secondObj.draw();
+		beach.drawText();
+		beach.draw();
+
+		shader3.use();
+		shader3.setMatrix4("M", sphere);
+		shader3.setMatrix4("itM", inverseModelSphere);
+		shader3.setMatrix4("V", view);
+		shader3.setMatrix4("P", perspective);
+		shader3.setVector3f("u_view_pos", camera.Position);
+		shader3.setVector3f("u_light_direction", light_direction);
+		shader3.setVector3f("light.light_pos", delta);
+		// sphere1.draw();
+
+
+		shader2.use();
+		modelSun = glm::mat4(1.0f);
+		modelSun = glm::translate(modelSun, delta);
+		// modelCub = glm::scale(modelCub, glm::vec3(0.5f));
+		// glm::mat4 inverseModelCub = glm::transpose(glm::inverse(modelCub));
+		// shader2.setMatrix4("M", modelCub);
+		// shader2.setMatrix4("itM", inverseModelCub);
+
+		shader2.setMatrix4("M", modelSun);
+		shader2.setMatrix4("V", view);
+		shader2.setMatrix4("P", perspective);
+
+		shader2.setInteger("ourTexture", 0);	
+		shader2.setFloat("intensity", 1.0f + 10*intensityMap);
+		glDepthFunc(GL_LEQUAL);
+		sun.drawText();
+		sun.draw();
+
+		cubeMapShader.use();
+		cubeMapShader.setMatrix4("V", view);
+		cubeMapShader.setMatrix4("P", perspective);
+		// float intensityMap = max(distSun * std::cos(damptime * now), 0.0f);
+		cubeMapShader.setFloat("intensity", intensityMap);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_CUBE_MAP,cubeMapTexture);
+		cubeMap.draw();
+		glDepthFunc(GL_LESS);
 		
 		fps(now);
 		glfwSwapBuffers(window);
@@ -355,6 +432,24 @@ int main(int argc, char* argv[])
 	glfwTerminate();
 
 	return 0;
+}
+
+void loadCubemapFace(const char * path, const GLenum& targetFace)
+{
+	int imWidth, imHeight, imNrChannels;
+	unsigned char* data = stbi_load(path, &imWidth, &imHeight, &imNrChannels, 0);
+	if (data)
+	{
+
+		glTexImage2D(targetFace, 0, GL_RGB, imWidth, imHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		//glGenerateMipmap(targetFace);
+	}
+	else {
+		std::cout << "Failed to Load texture" << std::endl;
+		const char* reason = stbi_failure_reason();
+		std::cout << (reason == NULL ? "Probably not implemented by the student" : reason) << std::endl;
+	}
+	stbi_image_free(data);
 }
 
 

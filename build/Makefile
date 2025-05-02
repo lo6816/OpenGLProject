@@ -243,6 +243,19 @@ infoh502-cpp_Project_cubmap/fast:
 .PHONY : infoh502-cpp_Project_cubmap/fast
 
 #=============================================================================
+# Target rules for targets named infoh502-cpp_Project_shadow
+
+# Build rule for target.
+infoh502-cpp_Project_shadow: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 infoh502-cpp_Project_shadow
+.PHONY : infoh502-cpp_Project_shadow
+
+# fast build rule for target.
+infoh502-cpp_Project_shadow/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_shadow.dir/build.make CMakeFiles/infoh502-cpp_Project_shadow.dir/build
+.PHONY : infoh502-cpp_Project_shadow/fast
+
+#=============================================================================
 # Target rules for targets named uninstall
 
 # Build rule for target.
@@ -401,6 +414,30 @@ multip_moai_text.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_ex02.dir/build.make CMakeFiles/infoh502-cpp_Project_ex02.dir/multip_moai_text.cpp.s
 .PHONY : multip_moai_text.cpp.s
 
+shadow.o: shadow.cpp.o
+.PHONY : shadow.o
+
+# target to build an object file
+shadow.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_shadow.dir/build.make CMakeFiles/infoh502-cpp_Project_shadow.dir/shadow.cpp.o
+.PHONY : shadow.cpp.o
+
+shadow.i: shadow.cpp.i
+.PHONY : shadow.i
+
+# target to preprocess a source file
+shadow.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_shadow.dir/build.make CMakeFiles/infoh502-cpp_Project_shadow.dir/shadow.cpp.i
+.PHONY : shadow.cpp.i
+
+shadow.s: shadow.cpp.s
+.PHONY : shadow.s
+
+# target to generate assembly for a file
+shadow.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_shadow.dir/build.make CMakeFiles/infoh502-cpp_Project_shadow.dir/shadow.cpp.s
+.PHONY : shadow.cpp.s
+
 sun_sim.o: sun_sim.cpp.o
 .PHONY : sun_sim.o
 
@@ -445,6 +482,7 @@ help:
 	@echo "... infoh502-cpp_Project_ex01"
 	@echo "... infoh502-cpp_Project_ex02"
 	@echo "... infoh502-cpp_Project_light"
+	@echo "... infoh502-cpp_Project_shadow"
 	@echo "... infoh502-cpp_Project_sun_sim"
 	@echo "... 3rdParty/glad/src/glad.o"
 	@echo "... 3rdParty/glad/src/glad.i"
@@ -461,6 +499,9 @@ help:
 	@echo "... multip_moai_text.o"
 	@echo "... multip_moai_text.i"
 	@echo "... multip_moai_text.s"
+	@echo "... shadow.o"
+	@echo "... shadow.i"
+	@echo "... shadow.s"
 	@echo "... sun_sim.o"
 	@echo "... sun_sim.i"
 	@echo "... sun_sim.s"

@@ -212,12 +212,6 @@ int main(int argc, char* argv[])
 		"uniform mat4 V; \n"
 		"uniform mat4 P; \n"
 
-		
-		"out vec3 v_frag_coord; \n"
-		"out vec3 v_normal; \n"
-		"uniform mat4 M; \n"
-		"uniform mat4 itM; \n"
-
 		"out vec3 texCoord_v; \n"
 
 		" void main(){ \n"
@@ -230,10 +224,6 @@ int main(int argc, char* argv[])
 		// we want a z always equal to 1.0 here, so we set z = w!
 		// Remember: z=1.0 is the MAXIMUM depth value ;)
 		"gl_Position = pos.xyww;\n"
-
-		"vec4 frag_coord = M*vec4(position, 1.0); \n"
-		"v_normal = vec3(itM * vec4(normal, 1.0)); \n"
-		"v_frag_coord = frag_coord.xyz; \n"
 		"\n" 
 		"}\n";
 
@@ -243,61 +233,53 @@ int main(int argc, char* argv[])
 		"precision mediump float; \n"
 		"uniform samplerCube cubemapSampler; \n"
 		"in vec3 texCoord_v; \n"
-
-
-		"in vec3 v_frag_coord; \n"
-		"in vec3 v_normal; \n"
-		"uniform vec3 u_view_pos; \n"
-		"uniform vec3 u_light_direction; \n"
-		"uniform float sunIntensity;\n"
-
-		"uniform float time;\n"
-
-		"struct Light{\n" 
-		"vec3 light_pos; \n"
-		"float ambient_strength; \n"
-		"float diffuse_strength; \n"
-		"float specular_strength; \n"
-		//attenuation factor
-		"float constant;\n"
-		"float linear;\n"
-		"float quadratic;\n"
-		"};\n"
-		"uniform Light light;"
-
-		"float CalcDirectionalLight(Light light, vec3 N, vec3 V, vec3 L)\n"
-			"{\n"
-			// "float specular = specularCalculation( N, L, V); \n"
-			"float diffuse = light.diffuse_strength * max(dot(N,L),0.0);\n"
-			"float attenuation = 1; \n"
-			"float orbitAngle = atan(light.light_pos.x, light.light_pos.y);\n"
-			"float dynamicIntensity = sunIntensity * clamp(0.5 + 0.5 * cos(orbitAngle), 0.0, 1.0);\n"
-			"float res = light.ambient_strength + dynamicIntensity * attenuation * (diffuse); \n"
-			"return res; \n"
-		"}\n"
-
 		"void main() { \n"
-
-		"vec3 N = normalize(v_normal);\n"
-		"vec3 V = normalize(u_view_pos - v_frag_coord); \n"
-		"float result = CalcDirectionalLight(light, N, V, normalize(-u_light_direction)); \n"
-
-		"FragColor = texture(cubemapSampler,texCoord_v) * time; \n"
-		// "FragColor = texture(cubemapSampler * vec3(result),texCoord_v); \n"
+		"FragColor = texture(cubemapSampler,texCoord_v); \n"
 		"} \n";
 	
+	char shaderSimLightV[128] = PATH_TO_SHADERS "/vertSrc.txt";
+	char shaderSimLightF[128] = PATH_TO_SHADERS "/fragSrc.txt";
 
+	char shaderSunV[128] = PATH_TO_SHADERS "/sunVert.txt";
+	char shaderSunF[128] = PATH_TO_SHADERS "/sunFrag.txt";
+
+	char shaderSphV[128] = PATH_TO_SHADERS "/sphVert.txt";
+	char shaderSphF[128] = PATH_TO_SHADERS "/sphFrag.txt";
+	
+	Shader shader4(shaderSimLightV, shaderSimLightF);
+	Shader shader2(shaderSunV, shaderSunF);
+	Shader shader3(shaderSphV, shaderSphF);
 
 	Shader cubeMapShader = Shader(sourceVCubeMap, sourceFCubeMap);
 
 	char path[] = PATH_TO_OBJECTS "/sphere_smooth.obj";
-
 	Object sphere1(path);
 	sphere1.makeObject(shader, false);
 	
+	
+
+	char path4[] = PATH_TO_OBJECTS "/moai5.obj";
+	Object moai(path4);
+	moai.makeObject(shader4);
+	// char file[128] = "./../textures/uii.png";
+	// moai.createText(file);
+
+	char path2[] = PATH_TO_OBJECTS "/plage.obj";
+	Object beach(path2);
+	beach.makeObject(shader4);
+	char file2[128] = "./../textures/plage.png";
+	beach.createText(file2);	
+
 	char pathCube[] = PATH_TO_OBJECTS "/cube.obj";
 	Object cubeMap(pathCube);
-	cubeMap.makeObject(cubeMapShader);
+	cubeMap.makeObject2(cubeMapShader);
+
+	// char pathCub[] = PATH_TO_OBJECTS "/sphere_smooth.obj"; 
+	// Object sun(pathCub);
+	// sun.makeObject(shader2, false);
+
+	// Object sphere2(pathCub);
+	// sphere2.makeObject(shader3, false);
 	//The debugger should show some errors here, they are not critical and the code still run
 	//Try to understand why they happen what you could modify to remove them.
 
@@ -318,6 +300,7 @@ int main(int argc, char* argv[])
 
 
 	glm::vec3 light_pos = glm::vec3(1.0, 2.0, 1.5);
+	// glm::vec3 light_direction = glm::vec3(-0.2f, -1.0f, -0.3f);
 	glm::mat4 model = glm::mat4(1.0);
 	model = glm::translate(model, glm::vec3(0.0, 0.0, -2.0));
 	model = glm::scale(model, glm::vec3(0.5, 0.5, 0.5));
@@ -345,20 +328,23 @@ int main(int argc, char* argv[])
 	shader.setFloat("light.linear", 0.14);
 	shader.setFloat("light.quadratic", 0.07);
 
-	cubeMapShader.setFloat("light.ambient_strength", ambient);
-	cubeMapShader.setFloat("light.diffuse_strength", diffuse);
-	cubeMapShader.setFloat("light.specular_strength", specular);
-	cubeMapShader.setFloat("light.constant", 1.0);
-	cubeMapShader.setFloat("light.linear", 0.14);
-	cubeMapShader.setFloat("light.quadratic", 0.07);
-	cubeMapShader.setFloat("sunIntensity", 1.0f);
 
+	// shader3.use();
+	// shader3.setFloat("shininess", 256.0f);
+	// shader3.setVector3f("materialColour", materialColour);
+	// shader3.setFloat("light.ambient_strength", ambient);
+	// shader3.setFloat("light.diffuse_strength", diffuse);
+	// shader3.setFloat("light.specular_strength", specular);
+	// shader3.setFloat("light.constant", 1.0);
+	// shader3.setFloat("light.linear", 0.14);
+	// shader3.setFloat("light.quadratic", 0.07);
+	// shader3.setFloat("sunIntensity", 1.0f);
 
 	
 
 	GLuint cubeMapTexture;
-	glGenTextures(1, &cubeMapTexture);
-	glActiveTexture(GL_TEXTURE0);
+	glGenTextures(2, &cubeMapTexture);
+	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMapTexture);
 
 	// texture parameters
@@ -368,9 +354,9 @@ int main(int argc, char* argv[])
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	//stbi_set_flip_vertically_on_load(true);
+	stbi_set_flip_vertically_on_load(false);
 
-	std::string pathToCubeMap = PATH_TO_TEXTURE "/cubemaps/yokohama3/";
+	std::string pathToCubeMap = PATH_TO_TEXTURE "/cubemaps/Daylight/";
 
 	std::map<std::string, GLenum> facesToLoad = { 
 		{pathToCubeMap + "posx.jpg",GL_TEXTURE_CUBE_MAP_POSITIVE_X},
@@ -419,16 +405,8 @@ int main(int argc, char* argv[])
 		cubeMapShader.use();
 		cubeMapShader.setMatrix4("V", view);
 		cubeMapShader.setMatrix4("P", perspective);
-		cubeMapShader.setInteger("cubemapTexture", 0);
-
-		cubeMapShader.setMatrix4("M", model);
-		cubeMapShader.setMatrix4("itM", inverseModel);
-		cubeMapShader.setVector3f("u_view_pos", camera.Position);
-		float intensityValue = 0.5f + 0.5f * sin(now);
-		cubeMapShader.setFloat("time", intensityValue);
-
-
-		glActiveTexture(GL_TEXTURE0);
+		cubeMapShader.setInteger("cubemapSampler", 2);
+		glActiveTexture(GL_TEXTURE2);
 		glBindTexture(GL_TEXTURE_CUBE_MAP,cubeMapTexture);
 		cubeMap.draw();
 		glDepthFunc(GL_LESS);

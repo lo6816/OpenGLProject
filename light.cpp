@@ -75,8 +75,64 @@ void APIENTRY glDebugOutput(GLenum source,
 }
 #endif
 
-Camera camera(glm::vec3(0.0, 0.0, 0.1));
+Camera camera(glm::vec3(0.0, 0.0, 0.0));
 
+// — paramètres ----------------------------------------------------------------
+
+// Lumière ponctuelle
+glm::vec3 lightShadow(2.0f, 6.0f, 2.0f);
+
+// Plan récepteur  :  n·x + d = 0  → plan (0,1,0) à y = 0
+const glm::vec3 planeN(0.0f, 1.0f, 0.0f);
+float planeD = 0.0f;
+
+// -----------------------------------------------------------------------------
+// Calcule la matrice de projection d’ombre (Eq. 7.4 du PDF)
+glm::mat4 shadowMatrix(const glm::vec3& L,
+	const glm::vec3& n,
+	float d)
+{
+float nDotL = glm::dot(n, L) + d;        // n·l + d
+glm::mat4 M(0.0f);
+
+M[0][0] = nDotL - L.x * n.x;  M[0][1] = -L.x * n.y;      M[0][2] = -L.x * n.z;      M[0][3] = -L.x * d;
+M[1][0] = -L.y * n.x;         M[1][1] = nDotL - L.y*n.y; M[1][2] = -L.y * n.z;      M[1][3] = -L.y * d;
+M[2][0] = -L.z * n.x;         M[2][1] = -L.z * n.y;      M[2][2] = nDotL - L.z*n.z; M[2][3] = -L.z * d;
+M[3][0] = -n.x;               M[3][1] = -n.y;            M[3][2] = -n.z;            M[3][3] =  nDotL;
+
+return M;
+}
+
+glm::mat4 shadowMatrix2(const glm::vec3& L,
+	const glm::vec3& n,
+	float d)
+{
+float nDotL = glm::dot(n, L) + d;        // n·l + d
+glm::mat4 M(0.0f);
+
+M[0][0] = L.y;    			  M[0][1] = -L.x      ;      M[0][2] = 0;       		M[0][3] = 0;
+M[1][0] = 0;         		  M[1][1] = 0; 				 M[1][2] = 0;      			M[1][3] = 0;
+M[2][0] = 0;         		  M[2][1] = -L.z;      		 M[2][2] = -L.y; 			M[2][3] = 0;
+M[3][0] = 0;                  M[3][1] = -1;              M[3][2] = 0;            	M[3][3] = L.y;
+
+return M;
+}
+
+glm::mat4 shadowMatrix3(const glm::vec3& L,
+	const glm::vec3& n,
+	float d, float yprime)
+{
+float nDotL = glm::dot(n, L) + d;        // n·l + d
+glm::mat4 M(0.0f);
+
+M[0][0] = L.y + yprime;    	  M[0][1] = -L.x      ;      M[0][2] = 0;       		M[0][3] = -yprime*L.x;
+M[1][0] = 0;         		  M[1][1] = 0; 				 M[1][2] = 0;      			M[1][3] = 0;
+M[2][0] = 0;         		  M[2][1] = -L.z;      		 M[2][2] = -L.y+yprime; 	M[2][3] = -yprime*L.z;
+M[3][0] = 0;                  M[3][1] = -1;              M[3][2] = 0;            	M[3][3] = L.y;
+
+return M;
+}
+// -----------------------------------------------------------------------------
 
 int main(int argc, char* argv[])
 {
@@ -145,10 +201,12 @@ int main(int argc, char* argv[])
 		"uniform mat4 itM; \n"
 		"uniform mat4 V; \n"
 		"uniform mat4 P; \n"
+		"uniform mat4 S; \n"
 
 
 		" void main(){ \n"
 		"vec4 frag_coord = M*vec4(position, 1.0); \n"
+		// "vec4 frag_coord = S*M*vec4(position, 1.0); \n"
 		"gl_Position = P*V*frag_coord; \n"
 		//4. transfomr correctly the normals
 		"v_normal = vec3(itM * vec4(normal, 1.0)); \n"
@@ -226,20 +284,52 @@ int main(int argc, char* argv[])
 		"FragColor = vec4(materialColour * vec3(result), 1.0); \n"
 		"} \n";
 
+	const std::string shadowV = "#version 330 core\n"
+		"layout(location=0) in vec3 position; \n"
+		"out vec4 frag_coord; \n"
+		"uniform mat4 MVP; \n"
+		"void main(){ \n"
+		"frag_coord = MVP*vec4(position, 1.0); \n"
+		"gl_Position = frag_coord; \n"
+		"}\n";
+	
+	const std::string shadowF = "#version 330 core\n"
+		"out vec4 FragColor;\n"
+		"precision mediump float; \n"
+		"in vec4 frag_coord; \n"
+		"uniform vec3 color; \n"
+		"void main(){ \n"
+		"FragColor = vec4(color, 1.0); \n"
+		"}\n";
+
 	Shader shader(sourceV, sourceF);
+	Shader shadowShader(shadowV, shadowF);
+
+	char shaderSunV[128] = PATH_TO_SHADERS "/sunVert.txt";
+	char shaderSunF[128] = PATH_TO_SHADERS "/sunFrag.txt";
+	Shader shader2(shaderSunV, shaderSunF);
+
 
 	
 
-	char path[] = PATH_TO_OBJECTS "/sphere_smooth.obj";
+	// char path[] = PATH_TO_OBJECTS "/sphere_smooth.obj";
+	// char path[] = PATH_TO_OBJECTS "/moai5.obj";
+	char path[] = PATH_TO_OBJECTS "/cube.obj";
 
 	Object sphere1(path);
 	sphere1.makeObject(shader, false);
 
 	Object sphere2(path);
-	sphere2.makeObject(shader, false);
+	sphere2.makeObject(shadowShader, false);
 
-	Object sphere3(path);
-	sphere3.makeObject(shader, false);
+	char pathCub[] = PATH_TO_OBJECTS "/sphere_smooth.obj"; 
+	Object sun(pathCub);
+	sun.makeObject(shader2, true);
+	char file3[128] = "./../textures/2k_sun.jpg";
+	sun.createText(file3);
+
+	
+
 
 	double prev = 0;
 	int deltaFrame = 0;
@@ -260,19 +350,16 @@ int main(int argc, char* argv[])
 	
 
 	glm::mat4 model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(0.0, 0.0, -2.0));
+	model = glm::translate(model, glm::vec3(0.0, 0.0, 2.0));
+	// model = glm::translate(model, glm::vec3(1.0, 1.0, -2.0));
 	model = glm::scale(model, glm::vec3(0.5, 0.5, 0.5));
 	glm::mat4 inverseModel = glm::transpose( glm::inverse(model));
 
-	glm::mat4 model2 = glm::mat4(1.0);
-	model2 = glm::translate(model2, glm::vec3(-3.0, 0.0, -2.0));
-	model2 = glm::scale(model2, glm::vec3(0.5, 0.5, 0.5));
-	glm::mat4 inverseModel2 = glm::transpose( glm::inverse(model2));
+	glm::mat4 modelSun = glm::translate(modelSun, glm::vec3(0.0, 0.0, 0.0));
+	modelSun = glm::scale(modelSun, glm::vec3(0.5, 0.5, 0.5));
+	glm::mat4 inverseModelSun= glm::transpose(glm::inverse(modelSun));
 
-	glm::mat4 model3 = glm::mat4(1.0);
-	model3 = glm::translate(model3, glm::vec3(3.0, 0.0, -2.0));
-	model3 = glm::scale(model3, glm::vec3(0.5, 0.5, 0.5));
-	glm::mat4 inverseModel3 = glm::transpose( glm::inverse(model3));
+
 
 	glm::mat4 view = camera.GetViewMatrix();
 	glm::mat4 perspective = camera.GetProjectionMatrix();
@@ -284,6 +371,7 @@ int main(int argc, char* argv[])
 	glm::vec3 materialColour = glm::vec3(0.5f,0.6,0.8);
 
 	glm::vec3 light_pos = glm::vec3(1.0, 2.0, 1.5);
+	// glm::vec3 light_pos = glm::vec3(0.0, 4.0, 0.0);
 	glm::vec3 light_direction = glm::vec3(-0.2f, -1.0f, -0.3f);
 
 	// auto u_time = glGetUniformLocation(shader, "time");
@@ -300,6 +388,20 @@ int main(int argc, char* argv[])
 	shader.setFloat("light.linear", 0.14);
 	shader.setFloat("light.quadratic", 0.07);
 	shader.setFloat("sunIntensity", 1.0f);
+
+			// Un grand carré centré sur l'origine dans le plan XZ (y = 0)
+		float floorVertices[] = {
+			// positions            // texture coords
+		-10.0f, 0.0f, -10.0f,     0.0f,  0.0f,
+			10.0f, 0.0f, -10.0f,     1.0f,  0.0f,
+			10.0f, 0.0f,  10.0f,     1.0f,  1.0f,
+		-10.0f, 0.0f,  10.0f,     0.0f,  1.0f
+		};
+
+		unsigned int floorIndices[] = {
+			0, 1, 2,
+			2, 3, 0
+		};
 	
 
 
@@ -312,6 +414,30 @@ int main(int argc, char* argv[])
 		glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		// float damptime = -0.04;
+		// float distSun = -50.0f;
+		// auto delta = glm::vec3(distSun * std::cos(damptime * now), distSun * std::sin(damptime *  now), -80.0f);
+		float damptime = 1.0f;
+		// float damptime = 0.2;
+		auto delta = glm::vec3(10.0f * std::cos(damptime * now), 10.0f * std::sin(damptime *  now), 0.0f);
+
+		
+
+		// planeD = -1.0f;
+		// planeD = -1.5f;
+		// glm::mat4 S  = shadowMatrix(delta, planeN, planeD);
+		// glm::mat4 S  = shadowMatrix(glm::vec3(0.0,5.0,0.0), planeN, planeD);
+		// glm::vec3 poslightshad = glm::vec3(std::cos(damptime * now),5.0, 3.0);
+		glm::vec3 poslightshad = glm::vec3(std::cos(damptime * now),5.0, std::sin(damptime * now));
+		// planeD = -1.0f;
+		// glm::mat4 S  = shadowMatrix3(poslightshad, planeN, planeD, -planeD);
+		// glm::mat4 S  = shadowMatrix(poslightshad, planeN, -1);
+		glm::mat4 S  = shadowMatrix(poslightshad, planeN, 0.0f);
+
+		// shader.setVector3f("light.light_pos", delta);
+		shader.setVector3f("light.light_pos", poslightshad);
+		shader.setFloat("now", 0.1 * (now));
+
 
 		shader.use();
 
@@ -321,30 +447,46 @@ int main(int argc, char* argv[])
 
 		shader.setMatrix4("V", view);
 		shader.setMatrix4("P", perspective);
+		shader.setMatrix4("S", S);
 		shader.setVector3f("u_view_pos", camera.Position);
 		shader.setVector3f("u_light_direction", light_direction);
 
 		
-		// auto delta = light_pos ;//+ glm::vec3(0.0,0.0,2 * std::sin(now));
-		// auto delta = light_pos + glm::vec3(0.0,0.0,2 * std::sin(now));
-		float damptime = 0.2;
-		auto delta = glm::vec3(10.0f * std::cos(damptime * now), 10.0f * std::sin(damptime *  now), 0.0f);
-		//std::cout << delta.z <<std::endl;
-		shader.setVector3f("light.light_pos", delta);
-		shader.setFloat("now", 0.1 * (now));
+		
 
 		sphere1.draw();
 
-		shader.setMatrix4("M", model2);
-		shader.setMatrix4("itM", inverseModel2);
+		shadowShader.use();
+		shadowShader.setMatrix4("MVP", perspective*view* S * model);
+		shadowShader.setVector3f("color", glm::vec3(0.0, 0.0, 0.0));
 		sphere2.draw();
 
-		shader.setMatrix4("M", model3);
-		shader.setMatrix4("itM", inverseModel3);
-		sphere3.draw();
-		
 
-		fps(now);
+
+		shader2.use();
+		modelSun = glm::mat4(1.0f);
+		modelSun = glm::translate(modelSun, poslightshad);
+		// modelCub = glm::scale(modelCub, glm::vec3(0.5f));
+		// glm::mat4 inverseModelCub = glm::transpose(glm::inverse(modelCub));
+		// shader2.setMatrix4("M", modelCub);
+		// shader2.setMatrix4("itM", inverseModelCub);
+
+		shader2.setMatrix4("M", modelSun);
+		shader2.setMatrix4("V", view);
+		shader2.setMatrix4("P", perspective);
+
+		shader2.setInteger("ourTexture", 0);	
+		float intensityMap = fmin(fmax(std::sin(-damptime * now), 0.0f) + 0.1f, 1.0f);
+		shader2.setFloat("intensity", 1.0f + 10*intensityMap);
+		sun.drawText();
+		sun.draw();
+
+
+		
+		// glDisable(GL_DEPTH_TEST);
+
+
+		// fps(now);
 		glfwSwapBuffers(window);
 	}
 
@@ -357,7 +499,6 @@ int main(int argc, char* argv[])
 
 
 void processInput(GLFWwindow* window) {
-	
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
 
@@ -370,11 +511,15 @@ void processInput(GLFWwindow* window) {
 		camera.ProcessKeyboardMovement(FORWARD, 0.1);
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 		camera.ProcessKeyboardMovement(BACKWARD, 0.1);
+	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+		camera.ProcessKeyboardMovement(UP, 0.1);
+	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+		camera.ProcessKeyboardMovement(DOWN, 0.1);
 
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-		camera.ProcessKeyboardRotation(1, 0.0, 1);
+		camera.ProcessKeyboardRotation(1, 0.0,1);
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-		camera.ProcessKeyboardRotation(-1, 0.0, 1);
+		camera.ProcessKeyboardRotation(-1, 0.0,1);
 
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
 		camera.ProcessKeyboardRotation(0.0, 1.0, 1);

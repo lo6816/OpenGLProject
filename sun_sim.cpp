@@ -259,8 +259,9 @@ int main(int argc, char* argv[])
 	
 
 	char path[] = PATH_TO_OBJECTS "/sphere_smooth.obj";
+	char path2[] = PATH_TO_OBJECTS "/moai5.obj";
 
-	Object sphere1(path);
+	Object sphere1(path2);
 	sphere1.makeObject(shader, false);
 
 	Object sphere2(path);
@@ -370,7 +371,7 @@ int main(int argc, char* argv[])
 		// auto delta = light_pos ;//+ glm::vec3(0.0,0.0,2 * std::sin(now));
 		// auto delta = light_pos + glm::vec3(0.0,0.0,2 * std::sin(now));
 		float damptime = 0.2;
-		auto delta = glm::vec3(10.0f * std::cos(damptime * now), 10.0f * std::sin(damptime *  now), 0.0f);
+		auto delta = glm::vec3(10.0f * std::cos(damptime * now), 10.0f * std::sin(damptime *  now), -5.0f);
 		//std::cout << delta.z <<std::endl;
 		shader.setVector3f("light.light_pos", delta);
 		shader.setFloat("now", 0.1 * (now));

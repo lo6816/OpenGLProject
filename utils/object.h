@@ -49,6 +49,11 @@ public:
 	glm::mat4 model = glm::mat4(1.0);
 
 
+	Object(const std::vector<Vertex>& vertices) {
+        this->vertices = vertices;
+        this->numVertices = vertices.size();
+    }
+
 	Object(const char* path) {
 
 		std::ifstream infile(path);
@@ -197,6 +202,58 @@ public:
 
 	}
 
+	void makeObject2(Shader shader, bool texture = true) {
+		/* This is a working but not perfect solution, you can improve it if you need/want
+		* What happens if you call this function twice on an Model ?
+		* What happens when a shader doesn't have a position, tex_coord or normal attribute ?
+		*/
+
+		float* data = new float[8 * numVertices];
+		for (int i = 0; i < numVertices; i++) {
+			Vertex v = vertices.at(i);
+			data[i * 8] = v.Position.x;
+			data[i * 8 + 1] = v.Position.y;
+			data[i * 8 + 2] = v.Position.z;
+
+			data[i * 8 + 3] = v.Texture.x;
+			data[i * 8 + 4] = v.Texture.y;
+
+			data[i * 8 + 5] = v.Normal.x;
+			data[i * 8 + 6] = v.Normal.y;
+			data[i * 8 + 7] = v.Normal.z;
+		}
+
+		glGenVertexArrays(2, &VAO);
+		glGenBuffers(2, &VBO);
+
+		//define VBO and VAO as active buffer and active vertex array
+		glBindVertexArray(VAO);
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * numVertices, data, GL_STATIC_DRAW);
+
+		auto att_pos = glGetAttribLocation(shader.ID, "position");
+		glEnableVertexAttribArray(att_pos);
+		glVertexAttribPointer(att_pos, 3, GL_FLOAT, false, 8 * sizeof(float), (void*)0);
+
+		
+		if (texture) {
+			auto att_tex = glGetAttribLocation(shader.ID, "tex_coord");
+			glEnableVertexAttribArray(att_tex);
+			glVertexAttribPointer(att_tex, 2, GL_FLOAT, false, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+			
+		}
+		
+		auto att_col = glGetAttribLocation(shader.ID, "normal");
+		glEnableVertexAttribArray(att_col);
+		glVertexAttribPointer(att_col, 3, GL_FLOAT, false, 8 * sizeof(float), (void*)(5 * sizeof(float)));
+		
+		//desactive the buffer
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindVertexArray(0);
+		delete[] data;
+
+	}
+
 	void draw() {
 
 		glBindVertexArray(this->VAO);
@@ -207,7 +264,7 @@ public:
 	void createText(char file[128]) {
 		
 		glGenTextures(1, &texture);
-		glActiveTexture(GL_TEXTURE0);
+		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, texture);
 
 		// //3. Define the parameters for the texture
@@ -245,12 +302,23 @@ public:
 
 		stbi_image_free(data);
 
-
 	}
 
 	void drawText() {
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture);
+	}
+
+	void centerModel() {
+		glm::vec3 center(0.0f);
+		for (const auto& vertex : vertices) {
+			center += vertex.Position;
+		}
+		center /= vertices.size(); // Moyenne des positions des sommets
+	
+		for (auto& vertex : vertices) {
+			vertex.Position -= center; // Recentrer les sommets
+		}
 	}
 };
 #endif

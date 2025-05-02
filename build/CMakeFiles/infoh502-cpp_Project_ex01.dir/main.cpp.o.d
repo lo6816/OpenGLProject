@@ -1260,6 +1260,8 @@ CMakeFiles/infoh502-cpp_Project_ex01.dir/main.cpp.o: \
   /Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glm/glm/gtc/../mat4x3.hpp \
   /Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glm/glm/gtc/type_ptr.inl \
   /Users/lorissperati/ULB/MA2/graph/Project/3rdParty/stb/stb_image.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/map \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__tree \
   /Users/lorissperati/ULB/MA2/graph/Project/./utils/camera.h \
   /Users/lorissperati/ULB/MA2/graph/Project/./utils/shader.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/fstream \

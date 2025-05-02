@@ -13,6 +13,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 #With these you can just use PATH_TO_OBJECTS and PATH_TO_TEXTURE in your c++ code and the compiler will replace it by the correct expression
 add_compile_definitions(PATH_TO_OBJECTS="${CMAKE_CURRENT_SOURCE_DIR}/objects")
 add_compile_definitions(PATH_TO_TEXTURE="${CMAKE_CURRENT_SOURCE_DIR}/textures")
+add_compile_definitions(PATH_TO_SHADERS="${CMAKE_CURRENT_SOURCE_DIR}/shaders")
 
 # #define some variable
 # set(COMPILE_LAB01 OFF CACHE BOOL "Compile the first Lab")
@@ -71,6 +72,7 @@ set(SOURCES_MAIN2 "multip_moai_text.cpp" "./utils/shader.h" "./utils/object.h" "
 set(SOURCES_LIGHT "light.cpp" "./utils/shader.h" "./utils/object.h" "./utils/camera.h")
 set(SOURCES_SUN "sun_sim.cpp" "./utils/shader.h" "./utils/object.h" "./utils/camera.h")
 set(SOURCES_MAP "cubeMap.cpp" "./utils/shader.h" "./utils/object.h" "./utils/camera.h")
+set(SOURCES_SHADOW "shadow.cpp" "./utils/shader.h" "./utils/object.h" "./utils/camera.h")
 
 
 
@@ -97,3 +99,7 @@ target_link_libraries(${PROJECT_NAME}_sun_sim PUBLIC OpenGL::GL glfw glad)
 add_executable(${PROJECT_NAME}_cubmap ${SOURCES_MAP})
 #Specify which libraries you want to use with your executable
 target_link_libraries(${PROJECT_NAME}_cubmap PUBLIC OpenGL::GL glfw glad)
+
+add_executable(${PROJECT_NAME}_shadow ${SOURCES_SHADOW})
+#Specify which libraries you want to use with your executable
+target_link_libraries(${PROJECT_NAME}_shadow PUBLIC OpenGL::GL glfw glad)
