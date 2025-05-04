@@ -19,6 +19,7 @@
 #include "./utils/camera.h"
 #include "./utils/shader.h"
 #include "./utils/object.h"
+#include "./utils/particles.h"
 
 
 const int width = 500;
@@ -156,8 +157,7 @@ int main(int argc, char* argv[])
 	Shader shader(shaderSimLightV, shaderSimLightF);
 	Shader shaderGnom(shaderSimLightV, shaderSimLightF);
 	Shader shader2(shaderSunV, shaderSunF);
-	Shader shader3(shaderSphV, shaderSphF);
-	// Shader cubeMapShader = Shader(sourceVCubeMap, sourceFCubeMap);
+	// Shader shader3(shaderSphV, shaderSphF);
 
 	const std::string sourceVCubeMap = "#version 330 core\n"
 		"in vec3 position; \n"
@@ -205,6 +205,12 @@ int main(int argc, char* argv[])
 	char file[128] = "./../textures/uii.png";
 	moai.createText(file);
 
+	char pathFire[] = PATH_TO_OBJECTS "/campfire.obj";
+	Object firecamp(pathFire);
+	firecamp.makeObject(shader);
+	// firecamp.centerModel();
+	firecamp.createText("./../textures/Firecamp.png");
+
 	char pathGnom[] = PATH_TO_OBJECTS "/gnom.obj";
 	Object gnom(pathGnom);
 	gnom.makeObject(shader);
@@ -224,8 +230,8 @@ int main(int argc, char* argv[])
 	char file3[128] = "./../textures/2k_sun.jpg";
 	sun.createText(file3);
 
-	Object sphere1(pathCub);
-	sphere1.makeObject(shader3, false);
+	// Object sphere1(pathCub);
+	// sphere1.makeObject(shader3, false);
 
 	//SKYBOX
 	char pathCube[] = PATH_TO_OBJECTS "/cube.obj";
@@ -254,6 +260,10 @@ int main(int argc, char* argv[])
 	modelmoai = glm::translate(modelmoai, glm::vec3(0.0, 0.0, 0.0));
 	// modelmoai = glm::scale(modelmoai, glm::vec3(0.5, 0.5, 0.5));
 	glm::mat4 inverseModel = glm::transpose( glm::inverse(modelmoai));
+
+	glm::mat4 modelfirecamp = glm::mat4(1.0);
+	modelfirecamp = glm::translate(modelfirecamp, glm::vec3(0.0, 0.0, 0.0));
+	glm::mat4 inverseModelFirecamp = glm::transpose( glm::inverse(modelfirecamp));
 
 	glm::mat4 modelgnom = glm::mat4(1.0);
 	modelgnom = glm::translate(modelgnom, glm::vec3(0.0, 0.0, 0.0));
@@ -296,16 +306,16 @@ int main(int argc, char* argv[])
 	shader.setFloat("light.quadratic", 0.07);
 	shader.setFloat("sunIntensity", 1.0f);
 
-	shader3.use();
-	shader3.setFloat("shininess", 256.0f);
-	shader3.setVector3f("materialColour", materialColour);
-	shader3.setFloat("light.ambient_strength", ambient);
-	shader3.setFloat("light.diffuse_strength", diffuse);
-	shader3.setFloat("light.specular_strength", specular);
-	shader3.setFloat("light.constant", 1.0);
-	shader3.setFloat("light.linear", 0.14);
-	shader3.setFloat("light.quadratic", 0.07);
-	shader3.setFloat("sunIntensity", 1.0f);
+	// shader3.use();
+	// shader3.setFloat("shininess", 256.0f);
+	// shader3.setVector3f("materialColour", materialColour);
+	// shader3.setFloat("light.ambient_strength", ambient);
+	// shader3.setFloat("light.diffuse_strength", diffuse);
+	// shader3.setFloat("light.specular_strength", specular);
+	// shader3.setFloat("light.constant", 1.0);
+	// shader3.setFloat("light.linear", 0.14);
+	// shader3.setFloat("light.quadratic", 0.07);
+	// shader3.setFloat("sunIntensity", 1.0f);
 
 	
 
@@ -337,6 +347,12 @@ int main(int argc, char* argv[])
 	for (std::pair<std::string, GLenum> pair : facesToLoad) {
 		loadCubemapFace(pair.first.c_str(), pair.second);
 	}
+
+	char fileVert[128] = PATH_TO_SHADERS"/part.vert";
+	char fileFrag[128] = PATH_TO_SHADERS"/part.frag";
+	Shader shaderParticules(fileVert, fileFrag);
+	ParticleSystem particleSystem(camera, shaderParticules);
+	particleSystem.initParticleSystem();
 
 	while (!glfwWindowShouldClose(window)) {
 		processInput(window);
@@ -374,24 +390,29 @@ int main(int argc, char* argv[])
 
 		moai.draw();
 
+		shader.setMatrix4("M", modelfirecamp);
+		shader.setMatrix4("itM", inverseModelFirecamp);
+		firecamp.drawText();
+		firecamp.draw();
+
 		shader.setMatrix4("M", modelgnom);
 		shader.setMatrix4("itM", inverseModelGnom);
-		gnom.drawText();
-		gnom.draw();
+		// gnom.drawText();
+		// gnom.draw();
 
 		shader.setMatrix4("M", secondModel);
 		shader.setMatrix4("itM", inverseModel2);
-		beach.drawText();
-		beach.draw();
+		// beach.drawText();
+		// beach.draw();
 
-		shader3.use();
-		shader3.setMatrix4("M", sphere);
-		shader3.setMatrix4("itM", inverseModelSphere);
-		shader3.setMatrix4("V", view);
-		shader3.setMatrix4("P", perspective);
-		shader3.setVector3f("u_view_pos", camera.Position);
-		shader3.setVector3f("u_light_direction", light_direction);
-		shader3.setVector3f("light.light_pos", delta);
+		// shader3.use();
+		// shader3.setMatrix4("M", sphere);
+		// shader3.setMatrix4("itM", inverseModelSphere);
+		// shader3.setMatrix4("V", view);
+		// shader3.setMatrix4("P", perspective);
+		// shader3.setVector3f("u_view_pos", camera.Position);
+		// shader3.setVector3f("u_light_direction", light_direction);
+		// shader3.setVector3f("light.light_pos", delta);
 		// sphere1.draw();
 
 
@@ -422,14 +443,18 @@ int main(int argc, char* argv[])
 		glBindTexture(GL_TEXTURE_CUBE_MAP,cubeMapTexture);
 		cubeMap.draw();
 		glDepthFunc(GL_LESS);
+
+		particleSystem.drawParticles(view, perspective, camera.GetCameraRight(), camera.GetCameraUp());
 		
 		fps(now);
 		glfwSwapBuffers(window);
 	}
 
 	//clean up ressource
+	particleSystem.cleanUp();
 	glfwDestroyWindow(window);
 	glfwTerminate();
+
 
 	return 0;
 }

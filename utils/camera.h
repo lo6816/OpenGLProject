@@ -73,6 +73,18 @@ public:
         return glm::perspective(fov, ratio, near, far);
     }
 
+    glm::vec3 GetCameraUp() {
+        return this->Up;
+    }
+
+    glm::vec3 GetCameraRight() {
+        return this->Right;
+    }
+
+    glm::vec3 GetCameraPosition() {
+        return this->Position;
+    }
+
     // processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
     void ProcessKeyboardMovement(Camera_Movement direction, float deltaTime)
     {

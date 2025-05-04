@@ -42,6 +42,12 @@
   "output": "CMakeFiles/infoh502-cpp_Project_shadow.dir/shadow.cpp.o"
 },
 {
+  "directory": "/Users/lorissperati/ULB/MA2/graph/Project/build",
+  "command": "/usr/bin/clang++ -DPATH_TO_LAB1_SHADERS=\\\"/Users/lorissperati/ULB/MA2/graph/Project\\\" -DPATH_TO_OBJECTS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/objects\\\" -DPATH_TO_SHADERS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/shaders\\\" -DPATH_TO_TEXTURE=\\\"/Users/lorissperati/ULB/MA2/graph/Project/textures\\\" -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glad/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glm -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/stb -iframework /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/System/Library/Frameworks -g -std=gnu++14 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -o CMakeFiles/infoh502-cpp_Project_smoke.dir/smoke.cpp.o -c /Users/lorissperati/ULB/MA2/graph/Project/smoke.cpp",
+  "file": "/Users/lorissperati/ULB/MA2/graph/Project/smoke.cpp",
+  "output": "CMakeFiles/infoh502-cpp_Project_smoke.dir/smoke.cpp.o"
+},
+{
   "directory": "/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src",
   "command": "/usr/bin/clang -DPATH_TO_OBJECTS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/objects\\\" -DPATH_TO_SHADERS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/shaders\\\" -DPATH_TO_TEXTURE=\\\"/Users/lorissperati/ULB/MA2/graph/Project/textures\\\" -D_GLFW_COCOA -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src -I/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src -g -std=c99 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fPIC -Wall -o CMakeFiles/glfw.dir/context.c.o -c /Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/context.c",
   "file": "/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src/context.c",

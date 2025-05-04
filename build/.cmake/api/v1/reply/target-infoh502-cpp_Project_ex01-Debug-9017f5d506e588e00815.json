@@ -28,13 +28,13 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 83,
+				"line" : 84,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 85,
+				"line" : 86,
 				"parent" : 0
 			},
 			{
@@ -49,7 +49,7 @@
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 79,
+				"line" : 80,
 				"parent" : 0
 			},
 			{
@@ -158,11 +158,11 @@
 	[
 		{
 			"backtrace" : 2,
-			"id" : "glfw::@8aac972b5f40431ab297"
+			"id" : "glad::@6890427a1f51a3e7e1df"
 		},
 		{
 			"backtrace" : 2,
-			"id" : "glad::@6890427a1f51a3e7e1df"
+			"id" : "glfw::@8aac972b5f40431ab297"
 		}
 	],
 	"id" : "infoh502-cpp_Project_ex01::@6890427a1f51a3e7e1df",

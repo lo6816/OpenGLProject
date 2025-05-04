@@ -263,7 +263,7 @@ int main(int argc, char* argv[])
 
 	
 
-	char path[] = PATH_TO_OBJECTS "/moai5.obj";
+	char path[] = PATH_TO_OBJECTS "/campfire.obj";
 	char path1[] = PATH_TO_OBJECTS "/sphere_smooth.obj";
 
 

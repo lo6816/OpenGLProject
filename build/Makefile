@@ -256,6 +256,19 @@ infoh502-cpp_Project_shadow/fast:
 .PHONY : infoh502-cpp_Project_shadow/fast
 
 #=============================================================================
+# Target rules for targets named infoh502-cpp_Project_smoke
+
+# Build rule for target.
+infoh502-cpp_Project_smoke: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 infoh502-cpp_Project_smoke
+.PHONY : infoh502-cpp_Project_smoke
+
+# fast build rule for target.
+infoh502-cpp_Project_smoke/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_smoke.dir/build.make CMakeFiles/infoh502-cpp_Project_smoke.dir/build
+.PHONY : infoh502-cpp_Project_smoke/fast
+
+#=============================================================================
 # Target rules for targets named uninstall
 
 # Build rule for target.
@@ -438,6 +451,30 @@ shadow.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_shadow.dir/build.make CMakeFiles/infoh502-cpp_Project_shadow.dir/shadow.cpp.s
 .PHONY : shadow.cpp.s
 
+smoke.o: smoke.cpp.o
+.PHONY : smoke.o
+
+# target to build an object file
+smoke.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_smoke.dir/build.make CMakeFiles/infoh502-cpp_Project_smoke.dir/smoke.cpp.o
+.PHONY : smoke.cpp.o
+
+smoke.i: smoke.cpp.i
+.PHONY : smoke.i
+
+# target to preprocess a source file
+smoke.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_smoke.dir/build.make CMakeFiles/infoh502-cpp_Project_smoke.dir/smoke.cpp.i
+.PHONY : smoke.cpp.i
+
+smoke.s: smoke.cpp.s
+.PHONY : smoke.s
+
+# target to generate assembly for a file
+smoke.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_smoke.dir/build.make CMakeFiles/infoh502-cpp_Project_smoke.dir/smoke.cpp.s
+.PHONY : smoke.cpp.s
+
 sun_sim.o: sun_sim.cpp.o
 .PHONY : sun_sim.o
 
@@ -483,6 +520,7 @@ help:
 	@echo "... infoh502-cpp_Project_ex02"
 	@echo "... infoh502-cpp_Project_light"
 	@echo "... infoh502-cpp_Project_shadow"
+	@echo "... infoh502-cpp_Project_smoke"
 	@echo "... infoh502-cpp_Project_sun_sim"
 	@echo "... 3rdParty/glad/src/glad.o"
 	@echo "... 3rdParty/glad/src/glad.i"
@@ -502,6 +540,9 @@ help:
 	@echo "... shadow.o"
 	@echo "... shadow.i"
 	@echo "... shadow.s"
+	@echo "... smoke.o"
+	@echo "... smoke.i"
+	@echo "... smoke.s"
 	@echo "... sun_sim.o"
 	@echo "... sun_sim.i"
 	@echo "... sun_sim.s"

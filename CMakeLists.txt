@@ -73,6 +73,7 @@ set(SOURCES_LIGHT "light.cpp" "./utils/shader.h" "./utils/object.h" "./utils/cam
 set(SOURCES_SUN "sun_sim.cpp" "./utils/shader.h" "./utils/object.h" "./utils/camera.h")
 set(SOURCES_MAP "cubeMap.cpp" "./utils/shader.h" "./utils/object.h" "./utils/camera.h")
 set(SOURCES_SHADOW "shadow.cpp" "./utils/shader.h" "./utils/object.h" "./utils/camera.h")
+set(SOURCES_SMOKE "smoke.cpp" "./utils/particles.h" "./utils/shader.h" "./utils/object.h" "./utils/camera.h")
 
 
 
@@ -103,3 +104,7 @@ target_link_libraries(${PROJECT_NAME}_cubmap PUBLIC OpenGL::GL glfw glad)
 add_executable(${PROJECT_NAME}_shadow ${SOURCES_SHADOW})
 #Specify which libraries you want to use with your executable
 target_link_libraries(${PROJECT_NAME}_shadow PUBLIC OpenGL::GL glfw glad)
+
+add_executable(${PROJECT_NAME}_smoke ${SOURCES_SMOKE})
+#Specify which libraries you want to use with your executable
+target_link_libraries(${PROJECT_NAME}_smoke PUBLIC OpenGL::GL glfw glad)
