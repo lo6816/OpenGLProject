@@ -1,0 +1,170 @@
+{
+	"archive" : {},
+	"artifacts" : 
+	[
+		{
+			"path" : "libglad.a"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"add_compile_definitions",
+			"include_directories",
+			"target_include_directories"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 48,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 101,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 33,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 35,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 34,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 17,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 50,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 62,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 67,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 2,
+					"define" : "PATH_TO_LAB1_SHADERS=\"/Users/lorissperati/ULB/MA2/graph/Project\""
+				},
+				{
+					"backtrace" : 3,
+					"define" : "PATH_TO_OBJECTS=\"/Users/lorissperati/ULB/MA2/graph/Project/objects\""
+				},
+				{
+					"backtrace" : 4,
+					"define" : "PATH_TO_SHADERS=\"/Users/lorissperati/ULB/MA2/graph/Project/shaders\""
+				},
+				{
+					"backtrace" : 5,
+					"define" : "PATH_TO_TEXTURE=\"/Users/lorissperati/ULB/MA2/graph/Project/textures\""
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 6,
+					"path" : "/opt/homebrew/opt/freetype/include/freetype2"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glad/include"
+				},
+				{
+					"backtrace" : 8,
+					"path" : "/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include"
+				},
+				{
+					"backtrace" : 9,
+					"path" : "/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glm"
+				},
+				{
+					"backtrace" : 9,
+					"path" : "/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/stb"
+				}
+			],
+			"language" : "C",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"id" : "glad::@6890427a1f51a3e7e1df",
+	"name" : "glad",
+	"nameOnDisk" : "libglad.a",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "3rdParty/glad/src/glad.c",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "STATIC_LIBRARY"
+}

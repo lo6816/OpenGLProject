@@ -81,21 +81,30 @@ void APIENTRY glDebugOutput(GLenum source,
 }
 #endif
 
-Camera camera(glm::vec3(0.0, 0.0, 0.2));
+Camera camera(glm::vec3(0.0, 2.0, 10.0));
+
+// Plan récepteur  :  n·x + d = 0  → plan (0,1,0) à y = 0
+const glm::vec3 planeN(0.0f, 1.0f, 0.0f);
+const float     planeD = 0.0f;
+
+// -----------------------------------------------------------------------------
+// Calcule la matrice de projection d’ombre (Eq. 7.4 du PDF)
+glm::mat4 shadowMatrix3(const glm::vec3& L,const glm::vec3& n,float d)
+{
+float nDotL = glm::dot(n, L) + d;        // n·l + d
+glm::mat4 M(0.0f);
+M[0][0] = nDotL - L.x * n.x;  M[1][0] = -L.x * n.y;      M[2][0] = -L.x * n.z;      M[3][0] = -L.x * d;
+M[0][1] = -L.y * n.x;         M[1][1] = nDotL - L.y*n.y; M[2][1] = -L.y * n.z;      M[3][1] = -L.y * d;
+M[0][2] = -L.z * n.x;         M[1][2] = -L.z * n.y;      M[2][2] = nDotL - L.z*n.z; M[3][2] = -L.z * d;
+M[0][3] = -n.x;               M[1][3] = -n.y;            M[2][3] = -n.z;            M[3][3] =  nDotL;
+
+return M;
+}
+// -----------------------------------------------------------------------------
 
 
 int main(int argc, char* argv[])
 {
-	std::cout << "Welcome to exercice GNOMGNUM: " << std::endl;
-	std::cout << "Object reader\n"
-		"Make an object reader and load one of the .obj file\n"
-		"You can also make your own object in Blender then save it as a .obj \n"
-		"You will need to: \n"
-		"	- Understand what a Wavefront .obj file contain\n"
-		"	- Open the .obj and read the relevant data \n"
-		"	- Stock the data in the relevant format  \n"
-		"	- Use the relevant buffer (VAO & VBO) to be able to draw your object  \n"
-		"We give you the the object.h file in the LAB03/exercises/ to help you start \n";
 
 	//Boilerplate
 	//Create the OpenGL context 
@@ -128,6 +137,7 @@ int main(int argc, char* argv[])
 	}
 
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_STENCIL_TEST);
 
 #ifndef NDEBUG
 	int flags;
@@ -141,6 +151,8 @@ int main(int argc, char* argv[])
 	}
 #endif
 
+	/*================ CREATE SHADERS ================*/
+
 	char shaderSimLightV[128] = PATH_TO_SHADERS "/vertSrc.txt";
 	char shaderSimLightF[128] = PATH_TO_SHADERS "/fragSrc.txt";
 
@@ -149,86 +161,56 @@ int main(int argc, char* argv[])
 
 	char shaderSphV[128] = PATH_TO_SHADERS "/sphVert.txt";
 	char shaderSphF[128] = PATH_TO_SHADERS "/sphFrag.txt";
-
-	// char sourceVCubeMap[128] = PATH_TO_SHADERS "/mapVert.txt";
-	// char sourceFCubeMap[128] = PATH_TO_SHADERS "/mapFrag.txt";
-
 	
 	Shader shader(shaderSimLightV, shaderSimLightF);
+	Shader shaderG(shaderSimLightV, shaderSimLightF);
 	Shader shaderGnom(shaderSimLightV, shaderSimLightF);
 	Shader shader2(shaderSunV, shaderSunF);
 	// Shader shader3(shaderSphV, shaderSphF);
 
-	const std::string sourceVCubeMap = "#version 330 core\n"
-		"in vec3 position; \n"
-		"in vec2 tex_coords; \n"
-		"in vec3 normal; \n"
-		
-		//only P and V are necessary
-		"uniform mat4 V; \n"
-		"uniform mat4 P; \n"
+	Shader cubeMapShader = Shader(PATH_TO_SHADERS "/cubmap.vert", PATH_TO_SHADERS "/cubmap.frag");
+	Shader shader3 = Shader(PATH_TO_SHADERS "/water.vert", PATH_TO_SHADERS "/water.frag");
+	Shader shadowShader(PATH_TO_SHADERS "/shadow.vert", PATH_TO_SHADERS "/shadow.frag");
 
-		"out vec3 texCoord_v; \n"
-
-		" void main(){ \n"
-		"texCoord_v = position;\n"
-		//remove translation info from view matrix to only keep rotation
-		"mat4 V_no_rot = mat4(mat3(V)) ;\n"
-		"vec4 pos = P * V_no_rot * vec4(position, 1.0); \n"
-		// the positions xyz are divided by w after the vertex shader
-		// the z component is equal to the depth value
-		// we want a z always equal to 1.0 here, so we set z = w!
-		// Remember: z=1.0 is the MAXIMUM depth value ;)
-		"gl_Position = pos.xyww;\n"
-		"\n" 
-		"}\n";
-
-	const std::string sourceFCubeMap = 
-		"#version 330 core\n"
-		"out vec4 FragColor;\n"
-		"precision mediump float; \n"
-		"uniform samplerCube cubemapSampler; \n"
-		"uniform float intensity; \n"
-		"in vec3 texCoord_v; \n"
-		"void main() { \n"
-		"FragColor = texture(cubemapSampler,texCoord_v) * intensity; \n"
-		"} \n";
+	/*================ OBJECTS ================*/
 
 
-	Shader cubeMapShader = Shader(sourceVCubeMap, sourceFCubeMap);
-
-
-	char path[] = PATH_TO_OBJECTS "/moai5.obj";
+	char path[] = PATH_TO_OBJECTS "/moai5shadow.obj";
 	Object moai(path);
 	moai.makeObject(shader);
 	moai.centerModel();
-	char file[128] = "./../textures/uii.png";
-	moai.createText(file);
+	moai.createText("./../textures/uii.png");
+
+	char pathshadow[] = PATH_TO_OBJECTS "/moai5shadow.obj";
+	Object moai2(path);
+	moai2.makeObject(shadowShader, false);
+
+	char pathWater[] = PATH_TO_OBJECTS "/water2.obj";
+	Object water(pathWater);
+	water.makeObject(shader3);
 
 	char pathFire[] = PATH_TO_OBJECTS "/campfire.obj";
 	Object firecamp(pathFire);
 	firecamp.makeObject(shader);
-	// firecamp.centerModel();
 	firecamp.createText("./../textures/Firecamp.png");
 
-	char pathGnom[] = PATH_TO_OBJECTS "/gnom.obj";
+	char pathGnom[] = PATH_TO_OBJECTS "/gnomon.obj";
 	Object gnom(pathGnom);
 	gnom.makeObject(shader);
-	gnom.centerModel();
-	char fileGnom[128] = "./../textures/2k_sun.png";
-	gnom.createText(fileGnom);
+	gnom.createText("./../textures/RuskinParkSundial01_Model_5_u1_v1_diffuse.jpeg");
 
-	char path2[] = PATH_TO_OBJECTS "/plage.obj";
+	Object gnomonshadow(PATH_TO_OBJECTS "/gnomon.obj");
+	gnomonshadow.makeObject(shadowShader, false);
+
+	char path2[] = PATH_TO_OBJECTS "/plage2.obj";
 	Object beach(path2);
 	beach.makeObject(shader);
-	char file2[128] = "./../textures/plage.png";
-	beach.createText(file2);	
+	beach.createText("./../textures/plage.png");	
 
 	char pathCub[] = PATH_TO_OBJECTS "/sphere_smooth.obj"; 
 	Object sun(pathCub);
 	sun.makeObject(shader2, true);
-	char file3[128] = "./../textures/2k_sun.jpg";
-	sun.createText(file3);
+	sun.createText( "./../textures/2k_sun.jpg");
 
 	// Object sphere1(pathCub);
 	// sphere1.makeObject(shader3, false);
@@ -240,6 +222,8 @@ int main(int argc, char* argv[])
 
 	glm::vec3 materialColour = glm::vec3(0.5f,0.6,0.8);
 
+
+	/*================ FPS ================*/
 
 	double prev = 0;
 	int deltaFrame = 0;
@@ -255,20 +239,31 @@ int main(int argc, char* argv[])
 		}
 	};
 
+	/*================ MODEL MATRIX ================*/
 
 	glm::mat4 modelmoai = glm::mat4(1.0);
 	modelmoai = glm::translate(modelmoai, glm::vec3(0.0, 0.0, 0.0));
 	// modelmoai = glm::scale(modelmoai, glm::vec3(0.5, 0.5, 0.5));
 	glm::mat4 inverseModel = glm::transpose( glm::inverse(modelmoai));
 
+	glm::mat4 modelmoaishadow = glm::mat4(1.0);
+	modelmoaishadow = glm::translate(modelmoaishadow, glm::vec3(0.0, 0.0, 0.0));
+
 	glm::mat4 modelfirecamp = glm::mat4(1.0);
 	modelfirecamp = glm::translate(modelfirecamp, glm::vec3(0.0, 0.0, 0.0));
 	glm::mat4 inverseModelFirecamp = glm::transpose( glm::inverse(modelfirecamp));
 
+	glm::mat4 modelwater = glm::mat4(1.0);
+	modelwater = glm::translate(modelwater, glm::vec3(0.0, 0.0, 0.0));
+	glm::mat4 inverseModelWater = glm::transpose( glm::inverse(modelwater));
+
 	glm::mat4 modelgnom = glm::mat4(1.0);
 	modelgnom = glm::translate(modelgnom, glm::vec3(0.0, 0.0, 0.0));
-	// modelgnom = glm::scale(modelgnom, glm::vec3(0.5, 0.5, 0.5));
-	glm::mat4 inverseModelGnom = glm::transpose( glm::inverse(modelgnom));
+	// // modelgnom = glm::scale(modelgnom, glm::vec3(0.5, 0.5, 0.5));
+	// glm::mat4 inverseModelGnom = glm::transpose( glm::inverse(modelgnom));
+	glm::mat4 modelgnom2 = glm::mat4(1.0);
+	modelgnom2 = glm::translate(modelgnom2, glm::vec3(0.0, 0.0, 0.0));
+	glm::mat4 inverseModelGnom2 = glm::transpose( glm::inverse(modelgnom2));
 
 	glm::mat4 sphere = glm::mat4(1.0);
 	sphere = glm::translate(sphere, glm::vec3(-2.0, 0.0, 0.0));
@@ -292,6 +287,8 @@ int main(int argc, char* argv[])
 	glfwSwapInterval(1);
 	//Rendering
 
+	/*================ SET SPECIFICS SHADERS ================*/
+	
 	float ambient = 0.1;
 	float diffuse = 1.0;
 	float specular = 0.8;
@@ -306,16 +303,16 @@ int main(int argc, char* argv[])
 	shader.setFloat("light.quadratic", 0.07);
 	shader.setFloat("sunIntensity", 1.0f);
 
-	// shader3.use();
-	// shader3.setFloat("shininess", 256.0f);
-	// shader3.setVector3f("materialColour", materialColour);
-	// shader3.setFloat("light.ambient_strength", ambient);
-	// shader3.setFloat("light.diffuse_strength", diffuse);
-	// shader3.setFloat("light.specular_strength", specular);
-	// shader3.setFloat("light.constant", 1.0);
-	// shader3.setFloat("light.linear", 0.14);
-	// shader3.setFloat("light.quadratic", 0.07);
-	// shader3.setFloat("sunIntensity", 1.0f);
+	shader3.use();
+	shader3.setFloat("shininess", 256.0f);
+	shader3.setVector3f("materialColour", materialColour);
+	shader3.setFloat("light.ambient_strength", ambient);
+	shader3.setFloat("light.diffuse_strength", diffuse);
+	shader3.setFloat("light.specular_strength", specular);
+	shader3.setFloat("light.constant", 1.0);
+	shader3.setFloat("light.linear", 0.14);
+	shader3.setFloat("light.quadratic", 0.07);
+	shader3.setFloat("sunIntensity", 1.0f);
 
 	
 
@@ -354,17 +351,21 @@ int main(int argc, char* argv[])
 	ParticleSystem particleSystem(camera, shaderParticules);
 	particleSystem.initParticleSystem();
 
+	/*================ RENDERING LOOP ================*/
+
 	while (!glfwWindowShouldClose(window)) {
 		processInput(window);
 		view = camera.GetViewMatrix();
 		glfwPollEvents();
 		double now = glfwGetTime();
 		glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-		float damptime = -0.04;
+		// float damptime = -0.04;
+		float damptime = -1.0f;
+
 		float distSun = -50.0f;
-		auto delta = glm::vec3(distSun * std::cos(damptime * now), distSun * std::sin(damptime *  now), -80.0f);
+		auto delta = glm::vec3(distSun * std::cos(-damptime * now), -damptime*10,distSun * std::sin(-damptime *  now));
 		float intensityMap = fmin(fmax(std::sin(-damptime * now), 0.0f) + 0.1f, 1.0f);
 
 
@@ -378,6 +379,7 @@ int main(int argc, char* argv[])
 		shader.setVector3f("u_view_pos", camera.Position);
 
 		//std::cout << delta.z <<std::endl;
+		// shader.setVector3f("light.light_pos", delta);
 		shader.setVector3f("light.light_pos", delta);
 		shader.setVector3f("u_light_direction", light_direction);
 		shader.setFloat("now", 0.1 * (now));
@@ -390,20 +392,100 @@ int main(int argc, char* argv[])
 
 		moai.draw();
 
+		shader3.use();
+		shader3.setMatrix4("M", modelwater);
+		shader3.setMatrix4("itM", inverseModelWater);
+		shader3.setMatrix4("V", view);
+		shader3.setMatrix4("P", perspective);
+		shader3.setVector3f("u_view_pos", camera.Position);
+		shader3.setVector3f("light.light_pos", delta);
+		shader3.setVector3f("u_light_direction", light_direction);
+		shader3.setFloat("now", 0.1 * (now));
+		shader3.setFloat("intensity", intensityMap);
+		// shader3.setInteger("ourTexture", 0);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_CUBE_MAP,cubeMapTexture);
+		cubeMapShader.setInteger("cubemapTexture", 1);		
+		// water.drawText();
+		water.draw();
+
+		shader.use();
 		shader.setMatrix4("M", modelfirecamp);
 		shader.setMatrix4("itM", inverseModelFirecamp);
 		firecamp.drawText();
 		firecamp.draw();
 
+		// modelgnom = glm::rotate(modelgnom, (float)(0.0001*now), glm::vec3(0.0f, 1.0f, 0.0f)); // Rotate 45 degrees around the Y-axis
+		
+		// shaderG.use();
+		// // shader.setMatrix4("M", modelmoai);
+		// // shader.setMatrix4("itM", inverseModel);
+		// shaderG.setMatrix4("V", view);
+		// shaderG.setMatrix4("P", perspective);
+		// shaderG.setVector3f("u_view_pos", camera.Position);
+
+		// //std::cout << delta.z <<std::endl;
+		// // shader.setVector3f("light.light_pos", delta);
+		// shaderG.setVector3f("light.light_pos", delta);
+		// shaderG.setVector3f("u_light_direction", light_direction);
+		// shaderG.setFloat("now", 0.1 * (now));
+		// shaderG.setInteger("ourTexture", 0);
+
+		// modelgnom = glm::mat4(1.0);
+		// modelgnom = glm::translate(modelgnom, glm::vec3(0.0, 0.0f, 4.0));
+		// // modelgnom = glm::rotate(modelgnom, (float) (0.01*now),glm::vec3(0.0f, 1.0f, 0.0f));
+		// // modelgnom = glm::scale(modelgnom, glm::vec3(0.5, 0.5, 0.5));
+		// glm::mat4 inverseModelGnom = glm::transpose( glm::inverse(modelgnom));
+		// shaderG.setMatrix4("M", modelgnom);
+		// shaderG.setMatrix4("itM", inverseModelGnom);
+		// // gnom.drawText();
+		// // glDisable(GL_DEPTH_TEST);
+		// gnom.draw();
+		// // glEnable(GL_DEPTH_TEST);
+
+		shader.use();
+		modelgnom = glm::mat4(1.0);
+		// modelgnom = glm::translate(modelgnom, glm::vec3(0.0, 1.0f, 4.0f));
+		glm::mat4 inverseModelGnom = glm::transpose( glm::inverse(modelgnom));
 		shader.setMatrix4("M", modelgnom);
 		shader.setMatrix4("itM", inverseModelGnom);
-		// gnom.drawText();
-		// gnom.draw();
+		gnom.drawText();
+		gnom.draw();
 
+		shader.use();
 		shader.setMatrix4("M", secondModel);
 		shader.setMatrix4("itM", inverseModel2);
-		// beach.drawText();
-		// beach.draw();
+		beach.drawText();
+		glStencilFunc(GL_ALWAYS, 1, 0xFF);
+		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+		beach.draw();
+
+		// printf("delta.y: %f\n", delta.y);
+		if(delta.y>=0.0)
+		{	glm::mat4 S  = shadowMatrix3(delta, planeN, 0.1);
+			shadowShader.use();
+			shadowShader.setMatrix4("MVP", perspective*view* S * modelmoai);
+			shadowShader.setVector3f("color", glm::vec3(0.0, 0.0, 0.0));
+			glDisable(GL_DEPTH_TEST);
+			glStencilFunc(GL_EQUAL, 1, 0xFF);
+			glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			moai2.draw();
+			glStencilFunc(GL_ALWAYS, 0, 0xFF);
+			glEnable(GL_DEPTH_TEST);
+
+			shadowShader.use();
+			S  = shadowMatrix3(delta, planeN, 0.1);
+			shadowShader.setMatrix4("MVP", perspective*view* S * inverseModelGnom2);
+			shadowShader.setVector3f("color", glm::vec3(0.0, 0.0, 0.0));
+			glDisable(GL_DEPTH_TEST);
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			gnomonshadow.draw();
+			glEnable(GL_DEPTH_TEST);
+			glDisable(GL_BLEND);
+		}
 
 		// shader3.use();
 		// shader3.setMatrix4("M", sphere);
@@ -450,7 +532,8 @@ int main(int argc, char* argv[])
 		glfwSwapBuffers(window);
 	}
 
-	//clean up ressource
+	/*================ CLEAN RESSOURCE ================*/
+
 	particleSystem.cleanUp();
 	glfwDestroyWindow(window);
 	glfwTerminate();

@@ -1,5 +1,7 @@
 /Users/lorissperati/ULB/MA2/graph/Project/build/CMakeFiles/glad.dir
 /Users/lorissperati/ULB/MA2/graph/Project/build/CMakeFiles/infoh502-cpp_Project_ex01.dir
+/Users/lorissperati/ULB/MA2/graph/Project/build/CMakeFiles/infoh502-cpp_Project_ball.dir
+/Users/lorissperati/ULB/MA2/graph/Project/build/CMakeFiles/infoh502-cpp_Project_refl.dir
 /Users/lorissperati/ULB/MA2/graph/Project/build/CMakeFiles/infoh502-cpp_Project_ex02.dir
 /Users/lorissperati/ULB/MA2/graph/Project/build/CMakeFiles/infoh502-cpp_Project_light.dir
 /Users/lorissperati/ULB/MA2/graph/Project/build/CMakeFiles/infoh502-cpp_Project_sun_sim.dir

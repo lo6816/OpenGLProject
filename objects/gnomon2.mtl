@@ -1,0 +1,12 @@
+# Blender 4.3.2 MTL File: 'gnomon.blend'
+# www.blender.org
+
+newmtl RuskinParkSundial01_Model_5:RuskinParkSundial01_Model_5_u1_
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 0.700000
+d 1.000000
+illum 1
+map_Kd /Users/lorissperati/Downloads/the-mendelssohn-sundial/source/RuskinParkSundial02/RuskinParkSundial01_Model_5_u1_v1_diffuse.jpg

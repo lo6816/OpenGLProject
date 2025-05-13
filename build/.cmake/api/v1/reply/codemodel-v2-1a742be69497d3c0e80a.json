@@ -1,0 +1,223 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10
+					]
+				},
+				{
+					"build" : "3rdParty/glfw",
+					"childIndexes" : 
+					[
+						2
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-3rdParty.glfw-Debug-55f29a38cfe8d5b03ee3.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.4"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "3rdParty/glfw",
+					"targetIndexes" : 
+					[
+						11
+					]
+				},
+				{
+					"build" : "3rdParty/glfw/src",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-3rdParty.glfw.src-Debug-040b8824965daa2dab75.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.4"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "3rdParty/glfw/src",
+					"targetIndexes" : 
+					[
+						1,
+						12
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "infoh502-cpp_Project",
+					"targetIndexes" : 
+					[
+						0,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1,
+						2
+					],
+					"name" : "GLFW",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						1,
+						11,
+						12
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "glad::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-glad-Debug-d19a3a70792818e3f448.json",
+					"name" : "glad",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "glfw::@8aac972b5f40431ab297",
+					"jsonFile" : "target-glfw-Debug-6e86c9ff91b736417136.json",
+					"name" : "glfw",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "infoh502-cpp_Project_ball::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-infoh502-cpp_Project_ball-Debug-44f70cebfb40616a657a.json",
+					"name" : "infoh502-cpp_Project_ball",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "infoh502-cpp_Project_cubmap::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-infoh502-cpp_Project_cubmap-Debug-d48904ec811640b413c2.json",
+					"name" : "infoh502-cpp_Project_cubmap",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "infoh502-cpp_Project_ex01::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-infoh502-cpp_Project_ex01-Debug-016cb913c103506b4c73.json",
+					"name" : "infoh502-cpp_Project_ex01",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "infoh502-cpp_Project_ex02::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-infoh502-cpp_Project_ex02-Debug-e7ae6bab2d16f5b871b0.json",
+					"name" : "infoh502-cpp_Project_ex02",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "infoh502-cpp_Project_light::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-infoh502-cpp_Project_light-Debug-9385f66e687a98f58e76.json",
+					"name" : "infoh502-cpp_Project_light",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "infoh502-cpp_Project_refl::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-infoh502-cpp_Project_refl-Debug-a5346f4e518a289409b6.json",
+					"name" : "infoh502-cpp_Project_refl",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "infoh502-cpp_Project_shadow::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-infoh502-cpp_Project_shadow-Debug-6e944440562cd8faf927.json",
+					"name" : "infoh502-cpp_Project_shadow",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "infoh502-cpp_Project_smoke::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-infoh502-cpp_Project_smoke-Debug-d8a9c3058d017206c178.json",
+					"name" : "infoh502-cpp_Project_smoke",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "infoh502-cpp_Project_sun_sim::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-infoh502-cpp_Project_sun_sim-Debug-0427d45c9ed49e89e271.json",
+					"name" : "infoh502-cpp_Project_sun_sim",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "uninstall::@b26046841b8eb6fc8d44",
+					"jsonFile" : "target-uninstall-Debug-ea7a4e2707dcbfd8d4f3.json",
+					"name" : "uninstall",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "update_mappings::@8aac972b5f40431ab297",
+					"jsonFile" : "target-update_mappings-Debug-de383a65ff95f1cece52.json",
+					"name" : "update_mappings",
+					"projectIndex" : 1
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/Users/lorissperati/ULB/MA2/graph/Project/build",
+		"source" : "/Users/lorissperati/ULB/MA2/graph/Project"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}

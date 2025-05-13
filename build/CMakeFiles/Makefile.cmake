@@ -83,6 +83,8 @@ set(CMAKE_MAKEFILE_PRODUCTS
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/glad.dir/DependInfo.cmake"
   "CMakeFiles/infoh502-cpp_Project_ex01.dir/DependInfo.cmake"
+  "CMakeFiles/infoh502-cpp_Project_ball.dir/DependInfo.cmake"
+  "CMakeFiles/infoh502-cpp_Project_refl.dir/DependInfo.cmake"
   "CMakeFiles/infoh502-cpp_Project_ex02.dir/DependInfo.cmake"
   "CMakeFiles/infoh502-cpp_Project_light.dir/DependInfo.cmake"
   "CMakeFiles/infoh502-cpp_Project_sun_sim.dir/DependInfo.cmake"

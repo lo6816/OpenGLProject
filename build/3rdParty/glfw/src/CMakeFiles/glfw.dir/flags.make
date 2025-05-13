@@ -4,7 +4,7 @@
 # compile C with /usr/bin/clang
 C_DEFINES = -DPATH_TO_OBJECTS=\"/Users/lorissperati/ULB/MA2/graph/Project/objects\" -DPATH_TO_SHADERS=\"/Users/lorissperati/ULB/MA2/graph/Project/shaders\" -DPATH_TO_TEXTURE=\"/Users/lorissperati/ULB/MA2/graph/Project/textures\" -D_GLFW_COCOA
 
-C_INCLUDES = -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src -I/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src
+C_INCLUDES = -I/opt/homebrew/opt/freetype/include/freetype2 -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/src -I/Users/lorissperati/ULB/MA2/graph/Project/build/3rdParty/glfw/src
 
 C_FLAGSarm64 = -g -std=c99 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fPIC -Wall
 

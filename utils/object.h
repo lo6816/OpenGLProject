@@ -37,6 +37,9 @@ public:
 	std::vector<glm::vec3> normals;
 	std::vector<Vertex> vertices;
 
+	// const unsigned int INSTANCE_COUNT = 20;
+	// glm::mat4 modelMatrices[20];
+
 	int numVertices;
 
 	GLuint texture;
@@ -45,6 +48,10 @@ public:
 	// glBindTexture(GL_TEXTURE_2D, texture2);
 
 	GLuint VBO, VAO;
+	// --- instancing ---
+	GLuint   instanceVBO  = 0;   // VBO contenant les matrices modèle
+	GLsizei  instanceCount = 0;  // nombre d’instances à dessiner
+	GLuint colorVBO = 0;
 
 	glm::mat4 model = glm::mat4(1.0);
 
@@ -252,6 +259,126 @@ public:
 		glBindVertexArray(0);
 		delete[] data;
 
+	}
+
+	// void setModelMatrix() {
+	// 	float* data = new float[8 * numVertices];
+	// 	for (int i = 0; i < numVertices; i++) {
+	// 		Vertex v = vertices.at(i);
+	// 		data[i * 8] = v.Position.x;
+	// 		data[i * 8 + 1] = v.Position.y;
+	// 		data[i * 8 + 2] = v.Position.z;
+	// 		data[i * 8 + 3] = v.Texture.x;
+	// 		data[i * 8 + 4] = v.Texture.y;
+	// 		data[i * 8 + 5] = v.Normal.x;
+	// 		data[i * 8 + 6] = v.Normal.y;
+	// 		data[i * 8 + 7] = v.Normal.z;
+	// 	}
+	// 	for (unsigned int i = 0; i < INSTANCE_COUNT; ++i)
+	// 	{
+	// 		float angle = i * 360.0f / INSTANCE_COUNT;
+	// 		float radius = 10.0f;                 // cercle de 10 m de rayon
+	// 		float x = cos(glm::radians(angle)) * radius;
+	// 		float z = sin(glm::radians(angle)) * radius;
+	// 		modelMatrices[i] = glm::translate(glm::mat4(1.0f), glm::vec3(x, 0.0f, z));
+	// 		modelMatrices[i] = glm::scale(modelMatrices[i], glm::vec3(0.5f)); // même échelle que ta boule unique		
+	// 	}
+	// 	GLuint instanceVBO;
+	// 	glGenBuffers(1, &instanceVBO);
+	// 	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+	// 	glBufferData(GL_ARRAY_BUFFER,
+	// 				INSTANCE_COUNT * sizeof(Vertex) * numVertices,
+	// 				data,
+	// 				GL_STATIC_DRAW);
+	// }
+
+	// --------------------------------------------------------------------
+	// 1) Charge un tableau de matrices modèle dans un VBO et configure le VAO
+	void setupInstancing(const std::vector<glm::mat4>& matrices)
+	{
+		instanceCount = static_cast<GLsizei>(matrices.size());
+
+		if (instanceVBO == 0)
+			glGenBuffers(1, &instanceVBO);
+
+		glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+		glBufferData(GL_ARRAY_BUFFER,
+					instanceCount * sizeof(glm::mat4),
+					matrices.data(),
+					GL_STATIC_DRAW);
+
+		glBindVertexArray(VAO);
+
+		std::size_t vec4Size = sizeof(glm::vec4);
+		for (int i = 0; i < 4; ++i) {
+			glEnableVertexAttribArray(3 + i);
+			glVertexAttribPointer(3 + i,
+								4,
+								GL_FLOAT,
+								GL_FALSE,
+								sizeof(glm::mat4),
+								(void*)(i * vec4Size));
+			glVertexAttribDivisor(3 + i, 1);   // une valeur par instance
+		}
+
+		glBindVertexArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+
+	// 2) Exemple : génère `count` instances disposées sur un cercle horizontal,
+	//    puis appelle setupInstancing().
+	void generateCircleInstances(unsigned int count, float radius = 10.0f, float decalage = 45.0f, float angle = 360.0f)
+	{
+		std::vector<glm::mat4> mats(count);
+
+		for (unsigned int i = 0; i < count; ++i) {
+			// decalage = 45.0f; // Décalage de 45° 
+			float angle_i = i * angle / count;
+			float x = -cos(glm::radians(angle_i + decalage)) * radius;
+			float z = -sin(glm::radians(angle_i + decalage)) * radius;
+
+			glm::mat4 M = glm::translate(glm::mat4(1.0f), glm::vec3(x, 0.0f, z));
+			M = glm::scale(M, glm::vec3(0.5f));
+			mats[i] = M;
+		}
+
+		setupInstancing(mats);
+	}
+
+	// 3) Dessin instancié (retombe sur draw() si aucune instance n’est définie)
+	void drawInstanced()
+	{
+		if (instanceCount == 0) {
+			draw();
+			return;
+		}
+
+		glBindVertexArray(VAO);
+		glDrawArraysInstanced(GL_TRIANGLES, 0, numVertices, instanceCount);
+	}
+	// --------------------------------------------------------------------
+
+	void setupInstanceColors(const std::vector<glm::vec3>& colors)
+	{
+		if (colors.size() != instanceCount) {
+			std::cerr << "[Object] instanceCount != colors.size()\n";
+			return;
+		}
+		if (colorVBO == 0) glGenBuffers(1, &colorVBO);
+
+		glBindBuffer(GL_ARRAY_BUFFER, colorVBO);
+		glBufferData(GL_ARRAY_BUFFER,
+					colors.size() * sizeof(glm::vec3),
+					colors.data(),
+					GL_STATIC_DRAW);
+
+		glBindVertexArray(VAO);
+		// location 7 libre (0-2: géo, 3-6: matrices)
+		glEnableVertexAttribArray(7);
+		glVertexAttribPointer(7, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);
+		glVertexAttribDivisor(7, 1);     // ► une couleur par instance
+		glBindVertexArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
 	void draw() {

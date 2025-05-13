@@ -1,6 +1,25 @@
 #Template for INFOH502
 #Heavily inspired from https://github.com/Polytonic/Glitter/blob/master/CMakeLists.txt
 
+# === FreeType ===
+find_path(FREETYPE_INCLUDE_DIR ft2build.h PATHS /opt/homebrew/opt/freetype/include/freetype2)
+find_path(FREETYPE_INCLUDE_DIR ft2build.h PATHS
+    /opt/homebrew/opt/freetype/include
+    /opt/homebrew/Cellar/freetype/include
+    /opt/homebrew/opt/freetype/include/freetype2
+)
+
+find_library(FREETYPE_LIBRARY freetype PATHS /opt/homebrew/opt/freetype/lib)
+
+
+if (FREETYPE_INCLUDE_DIR AND FREETYPE_LIBRARY)
+    message(STATUS "FreeType found")
+    include_directories(${FREETYPE_INCLUDE_DIR})
+    set(HAS_FREETYPE TRUE)
+else()
+    message(FATAL_ERROR "FreeType not found")
+endif()
+
 #project setup
 project(infoh502-cpp_Project)
 
@@ -74,6 +93,8 @@ set(SOURCES_SUN "sun_sim.cpp" "./utils/shader.h" "./utils/object.h" "./utils/cam
 set(SOURCES_MAP "cubeMap.cpp" "./utils/shader.h" "./utils/object.h" "./utils/camera.h")
 set(SOURCES_SHADOW "shadow.cpp" "./utils/shader.h" "./utils/object.h" "./utils/camera.h")
 set(SOURCES_SMOKE "smoke.cpp" "./utils/particles.h" "./utils/shader.h" "./utils/object.h" "./utils/camera.h")
+set(SOURCES_REFL "reflexion.cpp" "./utils/particles.h" "./utils/shader.h" "./utils/object.h" "./utils/camera.h")
+set(SOURCES_BALL "objball.cpp" "./utils/particles.h" "./utils/shader.h" "./utils/object.h" "./utils/camera.h" "./utils/text.h")
 
 
 
@@ -84,6 +105,14 @@ add_compile_definitions(PATH_TO_LAB1_SHADERS="${CMAKE_CURRENT_SOURCE_DIR}")
 add_executable(${PROJECT_NAME}_ex01 ${SOURCES_MAIN})
 #Specify which libraries you want to use with your executable
 target_link_libraries(${PROJECT_NAME}_ex01 PUBLIC OpenGL::GL glfw glad)
+
+add_executable(${PROJECT_NAME}_ball ${SOURCES_BALL})
+#Specify which libraries you want to use with your executable
+target_link_libraries(${PROJECT_NAME}_ball PUBLIC OpenGL::GL glfw glad ${FREETYPE_LIBRARY})
+
+add_executable(${PROJECT_NAME}_refl ${SOURCES_REFL})
+#Specify which libraries you want to use with your executable
+target_link_libraries(${PROJECT_NAME}_refl PUBLIC OpenGL::GL glfw glad)
 
 add_executable(${PROJECT_NAME}_ex02 ${SOURCES_MAIN2})
 #Specify which libraries you want to use with your executable

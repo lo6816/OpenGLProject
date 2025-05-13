@@ -79,9 +79,6 @@ Camera camera(glm::vec3(0.0, 0.0, 0.1));
 
 // — paramètres ----------------------------------------------------------------
 
-// Lumière ponctuelle
-glm::vec3 lightShadow(2.0f, 6.0f, 2.0f);
-
 // Plan récepteur  :  n·x + d = 0  → plan (0,1,0) à y = 0
 const glm::vec3 planeN(0.0f, 1.0f, 0.0f);
 const float     planeD = 0.0f;
@@ -125,11 +122,11 @@ glm::mat4 shadowMatrix3(const glm::vec3& L,const glm::vec3& n,float d)
 {
 float nDotL = glm::dot(n, L) + d;        // n·l + d
 glm::mat4 M(0.0f);
-std::cout << "Parameters: " << std::endl;
-std::cout << "L: " << L.x << " " << L.y << " " << L.z << std::endl;
-std::cout << "n: " << n.x << " " << n.y << " " << n.z << std::endl;
-std::cout << "d: " << d << std::endl;
-std::cout << "End of parameters" << std::endl;
+// std::cout << "Parameters: " << std::endl;
+// std::cout << "L: " << L.x << " " << L.y << " " << L.z << std::endl;
+// std::cout << "n: " << n.x << " " << n.y << " " << n.z << std::endl;
+// std::cout << "d: " << d << std::endl;
+// std::cout << "End of parameters" << std::endl;
 
 M[0][0] = nDotL - L.x * n.x;  M[1][0] = -L.x * n.y;      M[2][0] = -L.x * n.z;      M[3][0] = -L.x * d;
 M[0][1] = -L.y * n.x;         M[1][1] = nDotL - L.y*n.y; M[2][1] = -L.y * n.z;      M[3][1] = -L.y * d;
@@ -234,23 +231,23 @@ int main(int argc, char* argv[])
 	}
 #endif
 
-	const std::string shadowV = "#version 330 core\n"
-		"layout(location=0) in vec3 position; \n"
-		"out vec4 frag_coord; \n"
-		"uniform mat4 MVP; \n"
-		"void main(){ \n"
-		"frag_coord = MVP*vec4(position, 1.0); \n"
-		"gl_Position = frag_coord; \n"
-		"}\n";
+	// const std::string shadowV = "#version 330 core\n"
+	// 	"layout(location=0) in vec3 position; \n"
+	// 	"out vec4 frag_coord; \n"
+	// 	"uniform mat4 MVP; \n"
+	// 	"void main(){ \n"
+	// 	"frag_coord = MVP*vec4(position, 1.0); \n"
+	// 	"gl_Position = frag_coord; \n"
+	// 	"}\n";
 	
-	const std::string shadowF = "#version 330 core\n"
-		"out vec4 FragColor;\n"
-		"precision mediump float; \n"
-		"in vec4 frag_coord; \n"
-		"uniform vec3 color; \n"
-		"void main(){ \n"
-		"FragColor = vec4(color, 1.0); \n"
-		"}\n";
+	// const std::string shadowF = "#version 330 core\n"
+	// 	"out vec4 FragColor;\n"
+	// 	"precision mediump float; \n"
+	// 	"in vec4 frag_coord; \n"
+	// 	"uniform vec3 color; \n"
+	// 	"void main(){ \n"
+	// 	"FragColor = vec4(color, 1.0); \n"
+	// 	"}\n";
 
     char pathGroundV[] = PATH_TO_SHADERS "/simpleVert.txt";
     char pathGroundF[] = PATH_TO_SHADERS "/simpleFrag.txt";
@@ -258,7 +255,7 @@ int main(int argc, char* argv[])
     char pathSphereV[] = PATH_TO_SHADERS "/sphVert.txt";
 
 	Shader shader(pathSphereV, pathSphereF);
-	Shader shadowShader(shadowV, shadowF);
+	Shader shadowShader(PATH_TO_SHADERS "/shadow.vert", PATH_TO_SHADERS "/shadow.frag");
     Shader shadGround(pathGroundV, pathGroundF);
 
 	
@@ -383,8 +380,9 @@ int main(int argc, char* argv[])
         float offset = amplitude * std::sin(frequency * now); // Déplacement symétrique
         float offset2 = amplitude * std::cos(frequency * now); // Déplacement symétrique
         light_pos = glm::vec3(offset, 10.0f, offset2);
-        // model = glm::translate(model, glm::vec3(0.0, 1.0, 0.0));
-        model = glm::translate(glm::mat4(1.0), glm::vec3(amplitude * std::cos(frequency * now), 2.0f, amplitude * std::sin(frequency * now)));
+        model = glm::translate(model, glm::vec3(0.0, 1.0, 0.0));
+        // model = glm::translate(glm::mat4(1.0), glm::vec3(amplitude * std::cos(frequency * now), 2.0f, amplitude * std::sin(frequency * now)));
+        model = glm::translate(glm::mat4(1.0), glm::vec3(0.0, 0.0f, 0.0));
         model = glm::rotate(model, (float)now, glm::vec3(0.0f, 1.0f, 0.0f));
 		glm::mat4 S  = shadowMatrix3(light_pos, planeN, 0.0);
 
@@ -400,7 +398,8 @@ int main(int argc, char* argv[])
         
 
         // Mettre à jour la matrice modèle
-        glm::mat4 dynamicModel = glm::translate(modelsun, glm::vec3(offset, 0.0f, offset2));
+        glm::mat4 dynamicModel = glm::rotate(modelsun, (float) (0.0001*glfwGetTime()),glm::vec3(0.0f, 1.0f, 0.0f));
+        // glm::mat4 model = glm::rotate(model, (float) (0.0001*glfwGetTime()),glm::vec3(0.0f, 1.0f, 0.0f));
         
 
         // Passer la matrice mise à jour au shader
@@ -424,9 +423,9 @@ int main(int argc, char* argv[])
 		shader.setVector3f("u_view_pos", camera.Position);
 		shader.setVector3f("u_light_direction", light_direction);
 		sphere3.draw();
-        // Passer la matrice mise à jour au shader
-        shader.setMatrix4("M", dynamicModel);
-        shader.setMatrix4("itM", glm::transpose(glm::inverse(dynamicModel)));
+        // // Passer la matrice mise à jour au shader
+        // shader.setMatrix4("M", dynamicModel);
+        // shader.setMatrix4("itM", glm::transpose(glm::inverse(dynamicModel)));
 
         
 

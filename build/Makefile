@@ -191,6 +191,32 @@ infoh502-cpp_Project_ex01/fast:
 .PHONY : infoh502-cpp_Project_ex01/fast
 
 #=============================================================================
+# Target rules for targets named infoh502-cpp_Project_ball
+
+# Build rule for target.
+infoh502-cpp_Project_ball: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 infoh502-cpp_Project_ball
+.PHONY : infoh502-cpp_Project_ball
+
+# fast build rule for target.
+infoh502-cpp_Project_ball/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_ball.dir/build.make CMakeFiles/infoh502-cpp_Project_ball.dir/build
+.PHONY : infoh502-cpp_Project_ball/fast
+
+#=============================================================================
+# Target rules for targets named infoh502-cpp_Project_refl
+
+# Build rule for target.
+infoh502-cpp_Project_refl: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 infoh502-cpp_Project_refl
+.PHONY : infoh502-cpp_Project_refl
+
+# fast build rule for target.
+infoh502-cpp_Project_refl/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_refl.dir/build.make CMakeFiles/infoh502-cpp_Project_refl.dir/build
+.PHONY : infoh502-cpp_Project_refl/fast
+
+#=============================================================================
 # Target rules for targets named infoh502-cpp_Project_ex02
 
 # Build rule for target.
@@ -427,6 +453,54 @@ multip_moai_text.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_ex02.dir/build.make CMakeFiles/infoh502-cpp_Project_ex02.dir/multip_moai_text.cpp.s
 .PHONY : multip_moai_text.cpp.s
 
+objball.o: objball.cpp.o
+.PHONY : objball.o
+
+# target to build an object file
+objball.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_ball.dir/build.make CMakeFiles/infoh502-cpp_Project_ball.dir/objball.cpp.o
+.PHONY : objball.cpp.o
+
+objball.i: objball.cpp.i
+.PHONY : objball.i
+
+# target to preprocess a source file
+objball.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_ball.dir/build.make CMakeFiles/infoh502-cpp_Project_ball.dir/objball.cpp.i
+.PHONY : objball.cpp.i
+
+objball.s: objball.cpp.s
+.PHONY : objball.s
+
+# target to generate assembly for a file
+objball.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_ball.dir/build.make CMakeFiles/infoh502-cpp_Project_ball.dir/objball.cpp.s
+.PHONY : objball.cpp.s
+
+reflexion.o: reflexion.cpp.o
+.PHONY : reflexion.o
+
+# target to build an object file
+reflexion.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_refl.dir/build.make CMakeFiles/infoh502-cpp_Project_refl.dir/reflexion.cpp.o
+.PHONY : reflexion.cpp.o
+
+reflexion.i: reflexion.cpp.i
+.PHONY : reflexion.i
+
+# target to preprocess a source file
+reflexion.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_refl.dir/build.make CMakeFiles/infoh502-cpp_Project_refl.dir/reflexion.cpp.i
+.PHONY : reflexion.cpp.i
+
+reflexion.s: reflexion.cpp.s
+.PHONY : reflexion.s
+
+# target to generate assembly for a file
+reflexion.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_refl.dir/build.make CMakeFiles/infoh502-cpp_Project_refl.dir/reflexion.cpp.s
+.PHONY : reflexion.cpp.s
+
 shadow.o: shadow.cpp.o
 .PHONY : shadow.o
 
@@ -515,10 +589,12 @@ help:
 	@echo "... update_mappings"
 	@echo "... glad"
 	@echo "... glfw"
+	@echo "... infoh502-cpp_Project_ball"
 	@echo "... infoh502-cpp_Project_cubmap"
 	@echo "... infoh502-cpp_Project_ex01"
 	@echo "... infoh502-cpp_Project_ex02"
 	@echo "... infoh502-cpp_Project_light"
+	@echo "... infoh502-cpp_Project_refl"
 	@echo "... infoh502-cpp_Project_shadow"
 	@echo "... infoh502-cpp_Project_smoke"
 	@echo "... infoh502-cpp_Project_sun_sim"
@@ -537,6 +613,12 @@ help:
 	@echo "... multip_moai_text.o"
 	@echo "... multip_moai_text.i"
 	@echo "... multip_moai_text.s"
+	@echo "... objball.o"
+	@echo "... objball.i"
+	@echo "... objball.s"
+	@echo "... reflexion.o"
+	@echo "... reflexion.i"
+	@echo "... reflexion.s"
 	@echo "... shadow.o"
 	@echo "... shadow.i"
 	@echo "... shadow.s"
