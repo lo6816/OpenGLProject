@@ -19,6 +19,12 @@
 },
 {
   "directory": "/Users/lorissperati/ULB/MA2/graph/Project/build",
+  "command": "/usr/bin/clang++ -DPATH_TO_LAB1_SHADERS=\\\"/Users/lorissperati/ULB/MA2/graph/Project\\\" -DPATH_TO_OBJECTS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/objects\\\" -DPATH_TO_SHADERS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/shaders\\\" -DPATH_TO_TEXTURE=\\\"/Users/lorissperati/ULB/MA2/graph/Project/textures\\\" -I/opt/homebrew/opt/freetype/include/freetype2 -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glad/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glm -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/stb -iframework /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/System/Library/Frameworks -g -std=gnu++14 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -o CMakeFiles/infoh502-cpp_Project_click.dir/click.cpp.o -c /Users/lorissperati/ULB/MA2/graph/Project/click.cpp",
+  "file": "/Users/lorissperati/ULB/MA2/graph/Project/click.cpp",
+  "output": "CMakeFiles/infoh502-cpp_Project_click.dir/click.cpp.o"
+},
+{
+  "directory": "/Users/lorissperati/ULB/MA2/graph/Project/build",
   "command": "/usr/bin/clang++ -DPATH_TO_LAB1_SHADERS=\\\"/Users/lorissperati/ULB/MA2/graph/Project\\\" -DPATH_TO_OBJECTS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/objects\\\" -DPATH_TO_SHADERS=\\\"/Users/lorissperati/ULB/MA2/graph/Project/shaders\\\" -DPATH_TO_TEXTURE=\\\"/Users/lorissperati/ULB/MA2/graph/Project/textures\\\" -I/opt/homebrew/opt/freetype/include/freetype2 -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glad/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glm -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/stb -iframework /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/System/Library/Frameworks -g -std=gnu++14 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -o CMakeFiles/infoh502-cpp_Project_refl.dir/reflexion.cpp.o -c /Users/lorissperati/ULB/MA2/graph/Project/reflexion.cpp",
   "file": "/Users/lorissperati/ULB/MA2/graph/Project/reflexion.cpp",
   "output": "CMakeFiles/infoh502-cpp_Project_refl.dir/reflexion.cpp.o"

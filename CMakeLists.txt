@@ -95,6 +95,7 @@ set(SOURCES_SHADOW "shadow.cpp" "./utils/shader.h" "./utils/object.h" "./utils/c
 set(SOURCES_SMOKE "smoke.cpp" "./utils/particles.h" "./utils/shader.h" "./utils/object.h" "./utils/camera.h")
 set(SOURCES_REFL "reflexion.cpp" "./utils/particles.h" "./utils/shader.h" "./utils/object.h" "./utils/camera.h")
 set(SOURCES_BALL "objball.cpp" "./utils/particles.h" "./utils/shader.h" "./utils/object.h" "./utils/camera.h" "./utils/text.h")
+set(SOURCES_CLICK "click.cpp" "./utils/particles.h" "./utils/shader.h" "./utils/object.h" "./utils/camera.h" "./utils/text.h" "./utils/picking.h")
 
 
 
@@ -109,6 +110,10 @@ target_link_libraries(${PROJECT_NAME}_ex01 PUBLIC OpenGL::GL glfw glad)
 add_executable(${PROJECT_NAME}_ball ${SOURCES_BALL})
 #Specify which libraries you want to use with your executable
 target_link_libraries(${PROJECT_NAME}_ball PUBLIC OpenGL::GL glfw glad ${FREETYPE_LIBRARY})
+
+add_executable(${PROJECT_NAME}_click ${SOURCES_CLICK})
+#Specify which libraries you want to use with your executable
+target_link_libraries(${PROJECT_NAME}_click PUBLIC OpenGL::GL glfw glad ${FREETYPE_LIBRARY})
 
 add_executable(${PROJECT_NAME}_refl ${SOURCES_REFL})
 #Specify which libraries you want to use with your executable

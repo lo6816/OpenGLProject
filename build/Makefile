@@ -204,6 +204,19 @@ infoh502-cpp_Project_ball/fast:
 .PHONY : infoh502-cpp_Project_ball/fast
 
 #=============================================================================
+# Target rules for targets named infoh502-cpp_Project_click
+
+# Build rule for target.
+infoh502-cpp_Project_click: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 infoh502-cpp_Project_click
+.PHONY : infoh502-cpp_Project_click
+
+# fast build rule for target.
+infoh502-cpp_Project_click/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_click.dir/build.make CMakeFiles/infoh502-cpp_Project_click.dir/build
+.PHONY : infoh502-cpp_Project_click/fast
+
+#=============================================================================
 # Target rules for targets named infoh502-cpp_Project_refl
 
 # Build rule for target.
@@ -356,6 +369,30 @@ update_mappings/fast:
 3rdParty/glad/src/glad.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/glad.dir/build.make CMakeFiles/glad.dir/3rdParty/glad/src/glad.c.s
 .PHONY : 3rdParty/glad/src/glad.c.s
+
+click.o: click.cpp.o
+.PHONY : click.o
+
+# target to build an object file
+click.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_click.dir/build.make CMakeFiles/infoh502-cpp_Project_click.dir/click.cpp.o
+.PHONY : click.cpp.o
+
+click.i: click.cpp.i
+.PHONY : click.i
+
+# target to preprocess a source file
+click.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_click.dir/build.make CMakeFiles/infoh502-cpp_Project_click.dir/click.cpp.i
+.PHONY : click.cpp.i
+
+click.s: click.cpp.s
+.PHONY : click.s
+
+# target to generate assembly for a file
+click.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_click.dir/build.make CMakeFiles/infoh502-cpp_Project_click.dir/click.cpp.s
+.PHONY : click.cpp.s
 
 cubeMap.o: cubeMap.cpp.o
 .PHONY : cubeMap.o
@@ -590,6 +627,7 @@ help:
 	@echo "... glad"
 	@echo "... glfw"
 	@echo "... infoh502-cpp_Project_ball"
+	@echo "... infoh502-cpp_Project_click"
 	@echo "... infoh502-cpp_Project_cubmap"
 	@echo "... infoh502-cpp_Project_ex01"
 	@echo "... infoh502-cpp_Project_ex02"
@@ -601,6 +639,9 @@ help:
 	@echo "... 3rdParty/glad/src/glad.o"
 	@echo "... 3rdParty/glad/src/glad.i"
 	@echo "... 3rdParty/glad/src/glad.s"
+	@echo "... click.o"
+	@echo "... click.i"
+	@echo "... click.s"
 	@echo "... cubeMap.o"
 	@echo "... cubeMap.i"
 	@echo "... cubeMap.s"

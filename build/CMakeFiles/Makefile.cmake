@@ -84,6 +84,7 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/glad.dir/DependInfo.cmake"
   "CMakeFiles/infoh502-cpp_Project_ex01.dir/DependInfo.cmake"
   "CMakeFiles/infoh502-cpp_Project_ball.dir/DependInfo.cmake"
+  "CMakeFiles/infoh502-cpp_Project_click.dir/DependInfo.cmake"
   "CMakeFiles/infoh502-cpp_Project_refl.dir/DependInfo.cmake"
   "CMakeFiles/infoh502-cpp_Project_ex02.dir/DependInfo.cmake"
   "CMakeFiles/infoh502-cpp_Project_light.dir/DependInfo.cmake"

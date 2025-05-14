@@ -189,6 +189,12 @@ public:
 		auto att_pos = glGetAttribLocation(shader.ID, "position");
 		glEnableVertexAttribArray(att_pos);
 		glVertexAttribPointer(att_pos, 3, GL_FLOAT, false, 8 * sizeof(float), (void*)0);
+		// --- guarantee: position is ALSO available at location 0 -------------
+		if (att_pos != 0) {
+			glEnableVertexAttribArray(0);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+		}
+		// ---------------------------------------------------------------------
 
 		
 		if (texture) {
@@ -381,17 +387,19 @@ public:
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
-	void draw() {
-
-		glBindVertexArray(this->VAO);
-		glDrawArrays(GL_TRIANGLES, 0, numVertices);
-
-	}
+    // Optionally used to skip state changes during the picking pass
+    void draw(bool pickingPass = false)
+    {
+        glBindVertexArray(VAO);
+        glDrawArrays(GL_TRIANGLES, 0, numVertices);
+        glBindVertexArray(0);
+    }
 
 	void createText(char file[128]) {
 		
 		glGenTextures(1, &texture);
-		glActiveTexture(GL_TEXTURE1);
+		// glActiveTexture(GL_TEXTURE1);
+		glActiveTexture(GL_TEXTURE0);   // charge la texture dans l’unité 0
 		glBindTexture(GL_TEXTURE_2D, texture);
 
 		// //3. Define the parameters for the texture
