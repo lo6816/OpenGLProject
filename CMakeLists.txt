@@ -94,7 +94,7 @@ set(SOURCES_MAP "cubeMap.cpp" "./utils/shader.h" "./utils/object.h" "./utils/cam
 set(SOURCES_SHADOW "shadow.cpp" "./utils/shader.h" "./utils/object.h" "./utils/camera.h")
 set(SOURCES_SMOKE "smoke.cpp" "./utils/particles.h" "./utils/shader.h" "./utils/object.h" "./utils/camera.h")
 set(SOURCES_REFL "reflexion.cpp" "./utils/particles.h" "./utils/shader.h" "./utils/object.h" "./utils/camera.h")
-set(SOURCES_BALL "objball.cpp" "./utils/particles.h" "./utils/shader.h" "./utils/object.h" "./utils/camera.h" "./utils/text.h")
+set(SOURCES_BALL "objball.cpp" "./utils/particles.h" "./utils/shader.h" "./utils/object.h" "./utils/camera.h" "./utils/text.h" "./utils/picking.h")
 set(SOURCES_CLICK "click.cpp" "./utils/particles.h" "./utils/shader.h" "./utils/object.h" "./utils/camera.h" "./utils/text.h" "./utils/picking.h")
 
 

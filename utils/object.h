@@ -343,7 +343,7 @@ public:
 			float x = -cos(glm::radians(angle_i + decalage)) * radius;
 			float z = -sin(glm::radians(angle_i + decalage)) * radius;
 
-			glm::mat4 M = glm::translate(glm::mat4(1.0f), glm::vec3(x, 0.0f, z));
+			glm::mat4 M = glm::translate(glm::mat4(1.0f), glm::vec3(x, -2.0f, z));
 			M = glm::scale(M, glm::vec3(0.5f));
 			mats[i] = M;
 		}
@@ -450,9 +450,10 @@ public:
 			center += vertex.Position;
 		}
 		center /= vertices.size(); // Moyenne des positions des sommets
+		std::cout << "[INFO] Centre du modèle : (" << center.x << ", " << center.y << ", " << center.z << ")" << std::endl;
 	
 		for (auto& vertex : vertices) {
-			vertex.Position -= center; // Recentrer les sommets
+			vertex.Position -= center; // Recen trer les sommets
 		}
 	}
 };

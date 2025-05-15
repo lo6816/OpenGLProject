@@ -17,8 +17,10 @@ uniform mat4 P;
 
 void main(){ 
 
+
 vec4 frag_coord = M*vec4(position, 1.0); 
-gl_Position = P*M*V*frag_coord;
+// Correct order: Projection * View * Model * position
+gl_Position = P * V * frag_coord;
 
 v_col = vec4(normal*0.5 + 0.5, 1.0);
 v_t = tex_coord; 

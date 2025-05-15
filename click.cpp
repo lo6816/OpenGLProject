@@ -294,6 +294,11 @@ int main(int argc, char* argv[])
 	// sphere1.makeObject(shader, false);
 	sphere1.makeObject(shader);
 	sphere1.createText("./../textures/uii.png");
+	sphere1.centerModel();
+
+	// Hitbox invisible : même mesh « sphere_smooth », sans texture
+	Object hitSphere(PATH_TO_OBJECTS "/sphere_smooth.obj");
+	hitSphere.makeObject(shader, true);   // VAO minimal (pas de textures)
 
 	Object sphere2(path);
 	sphere2.makeObject(shader, true);
@@ -331,6 +336,10 @@ int main(int argc, char* argv[])
 	model = glm::translate(model, glm::vec3(0.0, 0.0, -2.0));
 	model = glm::scale(model, glm::vec3(0.5, 0.5, 0.5));
 	glm::mat4 inverseModel = glm::transpose( glm::inverse(model));
+
+	// // --- invisible hit-sphere (20 % plus grande) autour de sphere1 ---
+	// glm::mat4 modelHit = glm::scale(model, glm::vec3(1.2f));   // 20 % larger, same center
+
 
 	glm::mat4 model2 = glm::mat4(1.0);
 	model2 = glm::translate(model2, glm::vec3(-3.0, 0.0, -2.0));
@@ -389,7 +398,6 @@ int main(int argc, char* argv[])
 		// 1st pass : render IDs into the off‑screen picking buffer
 		// =========================================================
 		gPickingTexture.EnableWriting();
-		gPickingTexture.EnableWriting();
 
 		/* ---- correctifs ---- */
 		glDisable(GL_MULTISAMPLE);         // pas de moyenne d’échantillons
@@ -400,16 +408,21 @@ int main(int argc, char* argv[])
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 		pickShader.use();
 		pickShader.setMatrix4("V", view);
 		pickShader.setMatrix4("P", perspective);
 
-		// ---- sphere 1 ----
+		// // ---- sphere 1 ----
+		// pickShader.setFloat("ObjectID", 1.0f);
+		// pickShader.setMatrix4("M", model);
+		// sphere1.draw(true);
+		// ---- hit-sphere 1 (20 % plus grande) ----
 		pickShader.setFloat("ObjectID", 1.0f);
-		pickShader.setMatrix4("M", model);
-		sphere1.draw(true);
+		// --- invisible hit-sphere (20 % plus grande) autour de sphere1 ---
+		glm::mat4 modelHit = glm::scale(model, glm::vec3(1.2f));   // 20 % larger, same center
+		modelHit = glm::translate(modelHit, glm::vec3(-0.000288667, 0.749567, -4.76613));
+		pickShader.setMatrix4("M", modelHit);   // même ID = 1
+		hitSphere.draw(true);
 
 		// ---- sphere 2 ----
 		pickShader.setFloat("ObjectID", 2.0f);
@@ -455,6 +468,13 @@ int main(int argc, char* argv[])
 		
 		sphere1.drawText();
 		sphere1.draw();
+		// --- draw the hit‑sphere as thin wireframe to visualise its size ---
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		shader.setMatrix4("M",   modelHit);
+		shader.setMatrix4("itM", glm::transpose(glm::inverse(modelHit)));
+		shader.setVector3f("materialColour", glm::vec3(0.0, 1.0, 0.0));  // bright green
+		hitSphere.draw();
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 		shader.setMatrix4("M", model2);
 		shader.setMatrix4("itM", inverseModel2);
