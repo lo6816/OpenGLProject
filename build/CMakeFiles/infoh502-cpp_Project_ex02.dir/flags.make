@@ -6,7 +6,7 @@ CXX_DEFINES = -DPATH_TO_LAB1_SHADERS=\"/Users/lorissperati/ULB/MA2/graph/Project
 
 CXX_INCLUDES = -I/opt/homebrew/opt/freetype/include/freetype2 -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glfw/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glad/include -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/glm -I/Users/lorissperati/ULB/MA2/graph/Project/3rdParty/stb -iframework /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/System/Library/Frameworks
 
-CXX_FLAGSarm64 = -g -std=gnu++14 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk
+CXX_FLAGSarm64 = -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk
 
-CXX_FLAGS = -g -std=gnu++14 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk
+CXX_FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk
 

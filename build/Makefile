@@ -31,9 +31,6 @@ default_target: all
 
 .SUFFIXES: .hpux_make_needs_suffix_list
 
-# Produce verbose output by default.
-VERBOSE = 1
-
 # Command-line flag to silence nested $(MAKE).
 $(VERBOSE)MAKESILENT = -s
 
@@ -178,17 +175,30 @@ glad/fast:
 .PHONY : glad/fast
 
 #=============================================================================
-# Target rules for targets named infoh502-cpp_Project_ex01
+# Target rules for targets named infoh502-cpp_Project_main
 
 # Build rule for target.
-infoh502-cpp_Project_ex01: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 infoh502-cpp_Project_ex01
-.PHONY : infoh502-cpp_Project_ex01
+infoh502-cpp_Project_main: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 infoh502-cpp_Project_main
+.PHONY : infoh502-cpp_Project_main
 
 # fast build rule for target.
-infoh502-cpp_Project_ex01/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_ex01.dir/build.make CMakeFiles/infoh502-cpp_Project_ex01.dir/build
-.PHONY : infoh502-cpp_Project_ex01/fast
+infoh502-cpp_Project_main/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_main.dir/build.make CMakeFiles/infoh502-cpp_Project_main.dir/build
+.PHONY : infoh502-cpp_Project_main/fast
+
+#=============================================================================
+# Target rules for targets named infoh502-cpp_Project_VA
+
+# Build rule for target.
+infoh502-cpp_Project_VA: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 infoh502-cpp_Project_VA
+.PHONY : infoh502-cpp_Project_VA
+
+# fast build rule for target.
+infoh502-cpp_Project_VA/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_VA.dir/build.make CMakeFiles/infoh502-cpp_Project_VA.dir/build
+.PHONY : infoh502-cpp_Project_VA/fast
 
 #=============================================================================
 # Target rules for targets named infoh502-cpp_Project_ball
@@ -447,7 +457,7 @@ main.o: main.cpp.o
 
 # target to build an object file
 main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_ex01.dir/build.make CMakeFiles/infoh502-cpp_Project_ex01.dir/main.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_main.dir/build.make CMakeFiles/infoh502-cpp_Project_main.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -455,7 +465,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_ex01.dir/build.make CMakeFiles/infoh502-cpp_Project_ex01.dir/main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_main.dir/build.make CMakeFiles/infoh502-cpp_Project_main.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -463,8 +473,32 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_ex01.dir/build.make CMakeFiles/infoh502-cpp_Project_ex01.dir/main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_main.dir/build.make CMakeFiles/infoh502-cpp_Project_main.dir/main.cpp.s
 .PHONY : main.cpp.s
+
+mainVA.o: mainVA.cpp.o
+.PHONY : mainVA.o
+
+# target to build an object file
+mainVA.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_VA.dir/build.make CMakeFiles/infoh502-cpp_Project_VA.dir/mainVA.cpp.o
+.PHONY : mainVA.cpp.o
+
+mainVA.i: mainVA.cpp.i
+.PHONY : mainVA.i
+
+# target to preprocess a source file
+mainVA.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_VA.dir/build.make CMakeFiles/infoh502-cpp_Project_VA.dir/mainVA.cpp.i
+.PHONY : mainVA.cpp.i
+
+mainVA.s: mainVA.cpp.s
+.PHONY : mainVA.s
+
+# target to generate assembly for a file
+mainVA.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/infoh502-cpp_Project_VA.dir/build.make CMakeFiles/infoh502-cpp_Project_VA.dir/mainVA.cpp.s
+.PHONY : mainVA.cpp.s
 
 multip_moai_text.o: multip_moai_text.cpp.o
 .PHONY : multip_moai_text.o
@@ -626,12 +660,13 @@ help:
 	@echo "... update_mappings"
 	@echo "... glad"
 	@echo "... glfw"
+	@echo "... infoh502-cpp_Project_VA"
 	@echo "... infoh502-cpp_Project_ball"
 	@echo "... infoh502-cpp_Project_click"
 	@echo "... infoh502-cpp_Project_cubmap"
-	@echo "... infoh502-cpp_Project_ex01"
 	@echo "... infoh502-cpp_Project_ex02"
 	@echo "... infoh502-cpp_Project_light"
+	@echo "... infoh502-cpp_Project_main"
 	@echo "... infoh502-cpp_Project_refl"
 	@echo "... infoh502-cpp_Project_shadow"
 	@echo "... infoh502-cpp_Project_smoke"
@@ -651,6 +686,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... mainVA.o"
+	@echo "... mainVA.i"
+	@echo "... mainVA.s"
 	@echo "... multip_moai_text.o"
 	@echo "... multip_moai_text.i"
 	@echo "... multip_moai_text.s"

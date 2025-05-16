@@ -1,0 +1,241 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12
+					]
+				},
+				{
+					"build" : "3rdParty/glfw",
+					"childIndexes" : 
+					[
+						2
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-3rdParty.glfw-Debug-55f29a38cfe8d5b03ee3.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.4"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "3rdParty/glfw",
+					"targetIndexes" : 
+					[
+						13
+					]
+				},
+				{
+					"build" : "3rdParty/glfw/src",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-3rdParty.glfw.src-Debug-040b8824965daa2dab75.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.4"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "3rdParty/glfw/src",
+					"targetIndexes" : 
+					[
+						1,
+						14
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "infoh502-cpp_Project",
+					"targetIndexes" : 
+					[
+						0,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1,
+						2
+					],
+					"name" : "GLFW",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						1,
+						13,
+						14
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "glad::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-glad-Debug-a33fa30c58f812b747bb.json",
+					"name" : "glad",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "glfw::@8aac972b5f40431ab297",
+					"jsonFile" : "target-glfw-Debug-33889871cfd474d6632f.json",
+					"name" : "glfw",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "infoh502-cpp_Project_VA::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-infoh502-cpp_Project_VA-Debug-fc8a57e686e0f7f9feb5.json",
+					"name" : "infoh502-cpp_Project_VA",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "infoh502-cpp_Project_ball::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-infoh502-cpp_Project_ball-Debug-2d04172de0e591e55d6a.json",
+					"name" : "infoh502-cpp_Project_ball",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "infoh502-cpp_Project_click::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-infoh502-cpp_Project_click-Debug-684a3f18fee29bfe353b.json",
+					"name" : "infoh502-cpp_Project_click",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "infoh502-cpp_Project_cubmap::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-infoh502-cpp_Project_cubmap-Debug-1f04194544be76d94463.json",
+					"name" : "infoh502-cpp_Project_cubmap",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "infoh502-cpp_Project_ex02::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-infoh502-cpp_Project_ex02-Debug-086494424949ea89ee3c.json",
+					"name" : "infoh502-cpp_Project_ex02",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "infoh502-cpp_Project_light::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-infoh502-cpp_Project_light-Debug-a7b800d44ebc92387537.json",
+					"name" : "infoh502-cpp_Project_light",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "infoh502-cpp_Project_main::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-infoh502-cpp_Project_main-Debug-e1ef78e142675d400b26.json",
+					"name" : "infoh502-cpp_Project_main",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "infoh502-cpp_Project_refl::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-infoh502-cpp_Project_refl-Debug-66ef25096c8d66b503f4.json",
+					"name" : "infoh502-cpp_Project_refl",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "infoh502-cpp_Project_shadow::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-infoh502-cpp_Project_shadow-Debug-53d33cf10a1482f2e66c.json",
+					"name" : "infoh502-cpp_Project_shadow",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "infoh502-cpp_Project_smoke::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-infoh502-cpp_Project_smoke-Debug-9b4107cff6212171a28b.json",
+					"name" : "infoh502-cpp_Project_smoke",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "infoh502-cpp_Project_sun_sim::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-infoh502-cpp_Project_sun_sim-Debug-1f7205bafad8af30051c.json",
+					"name" : "infoh502-cpp_Project_sun_sim",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "uninstall::@b26046841b8eb6fc8d44",
+					"jsonFile" : "target-uninstall-Debug-ea7a4e2707dcbfd8d4f3.json",
+					"name" : "uninstall",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "update_mappings::@8aac972b5f40431ab297",
+					"jsonFile" : "target-update_mappings-Debug-de383a65ff95f1cece52.json",
+					"name" : "update_mappings",
+					"projectIndex" : 1
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/Users/lorissperati/ULB/MA2/graph/Project/build",
+		"source" : "/Users/lorissperati/ULB/MA2/graph/Project"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}

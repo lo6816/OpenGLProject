@@ -25,8 +25,11 @@ project(infoh502-cpp_Project)
 
 #set the minimal version of cmake and the minimal version of the c++ language
 cmake_minimum_required(VERSION 3.20 FATAL_ERROR)
-set(CMAKE_CXX_STANDARD 14)     
-set(CMAKE_VERBOSE_MAKEFILE ON)
+# set(CMAKE_CXX_STANDARD 14)     
+# set(CMAKE_VERBOSE_MAKEFILE ON)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 #These commands are there to specify the path to the folder containing the object and textures files as macro
 #With these you can just use PATH_TO_OBJECTS and PATH_TO_TEXTURE in your c++ code and the compiler will replace it by the correct expression
@@ -86,7 +89,8 @@ include_directories(3rdParty/glad/include/
 # project("LAB01")
 
 #Put the sources into a variable
-set(SOURCES_MAIN "main.cpp" "./utils/shader.h" "./utils/object.h" "./utils/camera.h")
+set(SOURCES_MAIN "main.cpp" "./utils/particles.h" "./utils/shader.h" "./utils/object.h" "./utils/camera.h" "./utils/text.h" "./utils/picking.h")
+set(SOURCES_MAINVA "mainVA.cpp" "./utils/shader.h" "./utils/object.h" "./utils/camera.h")
 set(SOURCES_MAIN2 "multip_moai_text.cpp" "./utils/shader.h" "./utils/object.h" "./utils/camera.h")
 set(SOURCES_LIGHT "light.cpp" "./utils/shader.h" "./utils/object.h" "./utils/camera.h")
 set(SOURCES_SUN "sun_sim.cpp" "./utils/shader.h" "./utils/object.h" "./utils/camera.h")
@@ -103,9 +107,13 @@ add_compile_definitions(PATH_TO_LAB1_SHADERS="${CMAKE_CURRENT_SOURCE_DIR}")
 
 #To use the content of a variable you need to use ${NAME_OF_YOUR_VARIABLE}
 #Specify that you want to generate an executable with a certain name using a set of sources
-add_executable(${PROJECT_NAME}_ex01 ${SOURCES_MAIN})
+add_executable(${PROJECT_NAME}_main ${SOURCES_MAIN})
 #Specify which libraries you want to use with your executable
-target_link_libraries(${PROJECT_NAME}_ex01 PUBLIC OpenGL::GL glfw glad)
+target_link_libraries(${PROJECT_NAME}_main PUBLIC OpenGL::GL glfw glad ${FREETYPE_LIBRARY} )
+
+add_executable(${PROJECT_NAME}_VA ${SOURCES_MAINVA})
+#Specify which libraries you want to use with your executable
+target_link_libraries(${PROJECT_NAME}_VA PUBLIC OpenGL::GL glfw glad)
 
 add_executable(${PROJECT_NAME}_ball ${SOURCES_BALL})
 #Specify which libraries you want to use with your executable
