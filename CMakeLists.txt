@@ -37,25 +37,12 @@ add_compile_definitions(PATH_TO_OBJECTS="${CMAKE_CURRENT_SOURCE_DIR}/objects")
 add_compile_definitions(PATH_TO_TEXTURE="${CMAKE_CURRENT_SOURCE_DIR}/textures")
 add_compile_definitions(PATH_TO_SHADERS="${CMAKE_CURRENT_SOURCE_DIR}/shaders")
 
-# #define some variable
-# set(COMPILE_LAB01 OFF CACHE BOOL "Compile the first Lab")
-# set(COMPILE_LAB02 OFF CACHE BOOL "Compile the second Lab")
-# set(COMPILE_LAB03 ON CACHE BOOL "Compile the third Lab")
-# set(COMPILE_LAB04 OFF CACHE BOOL "Compile the fourth Lab")
-# set(COMPILE_SOLUTIONS OFF CACHE BOOL "Compile the solutions")
-
-
 find_package(OpenGL REQUIRED)
 
 #for glad library
 add_library( glad STATIC 3rdParty/glad/src/glad.c)
 set(GLAD_INCLUDE "3rdParty/glad/include")
 target_include_directories(glad PUBLIC ${GLAD_INCLUDE})
-
-# #for GLFW
-# option(GLFW_BUILD_DOCS OFF)
-# option(GLFW_BUILD_EXAMPLES OFF)
-# option(GLFW_BUILD_TESTS OFF)
 
 #Search for glfw in case it is installed
 find_package(glfw3 QUIET)
@@ -71,37 +58,10 @@ include_directories(3rdParty/glad/include/
                     3rdParty/glm/
                     3rdParty/stb/)
 
-                 
-# if(COMPILE_LAB01)
-#     add_subdirectory(LAB01)
-# endif()
-
-# if(COMPILE_LAB02)
-# 	add_subdirectory(LAB02)
-# endif()
-
-# if(COMPILE_LAB03)
-# 	add_subdirectory(LAB03)
-# endif()
-
 #================================
-
-# project("LAB01")
 
 #Put the sources into a variable
 set(SOURCES_MAIN "main.cpp" "./utils/particles.h" "./utils/shader.h" "./utils/object.h" "./utils/camera.h" "./utils/text.h" "./utils/picking.h")
-set(SOURCES_MAINVA "mainVA.cpp" "./utils/shader.h" "./utils/object.h" "./utils/camera.h")
-set(SOURCES_MAIN2 "multip_moai_text.cpp" "./utils/shader.h" "./utils/object.h" "./utils/camera.h")
-set(SOURCES_LIGHT "light.cpp" "./utils/shader.h" "./utils/object.h" "./utils/camera.h")
-set(SOURCES_SUN "sun_sim.cpp" "./utils/shader.h" "./utils/object.h" "./utils/camera.h")
-set(SOURCES_MAP "cubeMap.cpp" "./utils/shader.h" "./utils/object.h" "./utils/camera.h")
-set(SOURCES_SHADOW "shadow.cpp" "./utils/shader.h" "./utils/object.h" "./utils/camera.h")
-set(SOURCES_SMOKE "smoke.cpp" "./utils/particles.h" "./utils/shader.h" "./utils/object.h" "./utils/camera.h")
-set(SOURCES_REFL "reflexion.cpp" "./utils/particles.h" "./utils/shader.h" "./utils/object.h" "./utils/camera.h")
-set(SOURCES_BALL "objball.cpp" "./utils/particles.h" "./utils/shader.h" "./utils/object.h" "./utils/camera.h" "./utils/text.h" "./utils/picking.h")
-set(SOURCES_CLICK "click.cpp" "./utils/particles.h" "./utils/shader.h" "./utils/object.h" "./utils/camera.h" "./utils/text.h" "./utils/picking.h")
-
-
 
 add_compile_definitions(PATH_TO_LAB1_SHADERS="${CMAKE_CURRENT_SOURCE_DIR}")
 
@@ -110,43 +70,3 @@ add_compile_definitions(PATH_TO_LAB1_SHADERS="${CMAKE_CURRENT_SOURCE_DIR}")
 add_executable(${PROJECT_NAME}_main ${SOURCES_MAIN})
 #Specify which libraries you want to use with your executable
 target_link_libraries(${PROJECT_NAME}_main PUBLIC OpenGL::GL glfw glad ${FREETYPE_LIBRARY} )
-
-add_executable(${PROJECT_NAME}_VA ${SOURCES_MAINVA})
-#Specify which libraries you want to use with your executable
-target_link_libraries(${PROJECT_NAME}_VA PUBLIC OpenGL::GL glfw glad)
-
-add_executable(${PROJECT_NAME}_ball ${SOURCES_BALL})
-#Specify which libraries you want to use with your executable
-target_link_libraries(${PROJECT_NAME}_ball PUBLIC OpenGL::GL glfw glad ${FREETYPE_LIBRARY})
-
-add_executable(${PROJECT_NAME}_click ${SOURCES_CLICK})
-#Specify which libraries you want to use with your executable
-target_link_libraries(${PROJECT_NAME}_click PUBLIC OpenGL::GL glfw glad ${FREETYPE_LIBRARY})
-
-add_executable(${PROJECT_NAME}_refl ${SOURCES_REFL})
-#Specify which libraries you want to use with your executable
-target_link_libraries(${PROJECT_NAME}_refl PUBLIC OpenGL::GL glfw glad)
-
-add_executable(${PROJECT_NAME}_ex02 ${SOURCES_MAIN2})
-#Specify which libraries you want to use with your executable
-target_link_libraries(${PROJECT_NAME}_ex02 PUBLIC OpenGL::GL glfw glad)
-
-add_executable(${PROJECT_NAME}_light ${SOURCES_LIGHT})
-#Specify which libraries you want to use with your executable
-target_link_libraries(${PROJECT_NAME}_light PUBLIC OpenGL::GL glfw glad)
-
-add_executable(${PROJECT_NAME}_sun_sim ${SOURCES_SUN})
-#Specify which libraries you want to use with your executable
-target_link_libraries(${PROJECT_NAME}_sun_sim PUBLIC OpenGL::GL glfw glad)
-
-add_executable(${PROJECT_NAME}_cubmap ${SOURCES_MAP})
-#Specify which libraries you want to use with your executable
-target_link_libraries(${PROJECT_NAME}_cubmap PUBLIC OpenGL::GL glfw glad)
-
-add_executable(${PROJECT_NAME}_shadow ${SOURCES_SHADOW})
-#Specify which libraries you want to use with your executable
-target_link_libraries(${PROJECT_NAME}_shadow PUBLIC OpenGL::GL glfw glad)
-
-add_executable(${PROJECT_NAME}_smoke ${SOURCES_SMOKE})
-#Specify which libraries you want to use with your executable
-target_link_libraries(${PROJECT_NAME}_smoke PUBLIC OpenGL::GL glfw glad)
